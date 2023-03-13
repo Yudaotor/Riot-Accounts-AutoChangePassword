@@ -24,8 +24,8 @@ class Logger:
         )
         log = logging.getLogger("改密码")
         log.info("-------------------------------------------------")
-        log.info(f"----------- Program started   ---------------")
-        log.info(f"----------- 本项目开源于github   ---------------")
-        log.info(f"----------- 地址:https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword ---------------")
+        log.info("----------- Program started   ---------------")
+        log.info("----------- 本项目开源于github   ---------------")
+        log.info(r"----------- 地址:https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword ---------------")
         log.info("-------------------------------------------------")
         return log
