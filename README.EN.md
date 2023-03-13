@@ -1,3 +1,5 @@
+[English Version](https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/blob/master/readme.en.md)|
+[中文版本](https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/blob/master/README.md)
 # This program is used to automatically change the password for Riot 
 ## Notes on use:
 1. This program is using Microsoft Edge browser, so you need to download the msedgedriver thing. How to download and configure it, you can Google it yourself. (Note that you need to download the version that matches your browser)
