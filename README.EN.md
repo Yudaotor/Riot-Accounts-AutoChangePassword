@@ -1,4 +1,4 @@
-[English Version](https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/blob/master/readme.en.md)|
+[English Version](https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/blob/master/README.EN.md)|
 [中文版本](https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/blob/master/README.md)
 # This program is used to automatically change the password for Riot 
 ## Notes on use:
