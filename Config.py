@@ -1,5 +1,4 @@
 import logging
-
 import yaml
 from yaml.parser import ParserError
 from rich import print
@@ -17,9 +16,11 @@ class Config:
                 self.accountFilePath = config.get("accountFilePath").strip('u202a')
         except FileNotFoundError as ex:
             log.error("配置文件找不到")
+            print("[red]配置文件找不到")
             raise ex
         except (ParserError, KeyError) as ex:
             log.error("配置文件格式错误")
+            print("[red]配置文件格式错误")
             raise ex
 
     def __findConfig(self, configPath):
