@@ -27,5 +27,6 @@ class Logger:
         log.info("----------- Program started   ---------------")
         log.info("----------- 本项目开源于github   ---------------")
         log.info(r"----------- 地址:https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword ---------------")
+        log.info(r"----------- 可以点一个小星星吗(*^_^*) ---------------")
         log.info("-------------------------------------------------")
         return log
