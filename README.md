@@ -23,3 +23,5 @@ a21341----3512s5312
 5. 程序执行后账号密码修改成功与否可以在log文件夹中查看.
 6. 下载方法,请点击右方的release中下载最新版的exe文件使用.
 7. 仅限**没有验证过邮箱**的账号使用
+## 程序运行控制台显示截图:
+![image](https://user-images.githubusercontent.com/87225219/225042983-1abf1ed8-fabc-4dbb-a7b8-b4b5df92ab05.png)
