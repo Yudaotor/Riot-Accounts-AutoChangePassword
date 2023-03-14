@@ -31,23 +31,18 @@ def changePwd(log: logging.Logger, config: Config, username, password, newPasswo
             '%2Fmfa%2Fdevice.write%20riot%3A%2F%2Friot.authenticator%2Fidentity.add&state=547c8cd2-9eb0-4302-b9b2'
             '-f29ee843a4bd&ui_locales=zh-Hans')
         driver.implicitly_wait(10)  # 隐式等待时间
-        driver.set_window_size(1200, 800)  # 浏览器窗口大小
-        driver.find_element(by=By.XPATH,
-                            value='/html/body/div[2]/div/div/div[2]/div/div/div[2]/div/div/div/div[1]/div/input').send_keys(
-            username)
-        driver.find_element(by=By.XPATH,
-                            value='/html/body/div[2]/div/div/div[2]/div/div/div[2]/div/div/div/div[2]/div/input').send_keys(
-            password)
-        driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div/div/button').click()
-        driver.find_element(by=By.XPATH,
-                            value='//*[@id="riot-account"]/div/div[2]/div/div[2]/div[1]/div/div/input').send_keys(
-            password)
-        driver.find_element(by=By.XPATH,
-                            value='//*[@id="riot-account"]/div/div[2]/div/div[2]/div[3]/div/input').send_keys(
-            newPassword)
-        driver.find_element(by=By.XPATH,
-                            value='//*[@id="riot-account"]/div/div[2]/div/div[2]/div[2]/div/input').send_keys(
-            newPassword)
+        driver.maximize_window()
+        # login
+        driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div/div/div[2]/div/div/div/div[1]/div/input').send_keys(username)
+        driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div/div/div[2]/div/div/div/div[2]/div/input').send_keys(password)
+
+        buttonLogin = driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div/div/button')
+        time.sleep(2)
+        driver.execute_script("arguments[0].click();", buttonLogin)
+        # change password
+        driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[2]/div[1]/div/div/input').send_keys(password)
+        driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[2]/div[3]/div/input').send_keys(newPassword)
+        driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[2]/div[2]/div/input').send_keys(newPassword)
         driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[1]/p').click()
         driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[3]/button[2]').click()
         log.info(username + " Success")
@@ -62,8 +57,7 @@ def changePwd(log: logging.Logger, config: Config, username, password, newPasswo
 
 def init() -> tuple[logging.Logger, Config]:
     parser = argparse.ArgumentParser(description='英雄联盟外服自动改密码')
-    parser.add_argument('-c', '--config', dest="configPath", default="./config.yaml",
-                        help='Path to a custom config file')
+    parser.add_argument('-c', '--config', dest="configPath", default="./config.yaml", help='Path to a custom config file')
     args = parser.parse_args()
     Path("./logs/").mkdir(parents=True, exist_ok=True)
     log = Logger.createLogger()
