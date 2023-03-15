@@ -61,11 +61,12 @@ def main(config: Config):
             line = f.readline()
             while line:
                 sp = line.split('----')
-                if sp[1][-1] == '\n':
-                    sp[1] = sp[1][:-1]
-                    if handle.automaticLogIn(sp[0], sp[1]):
-                        if handle.automaticChangePassword(sp[0], sp[1], config.newPassword):
-                            handle.automaticLogOut()
+                if sp:
+                    if sp[1][-1] == '\n':
+                        sp[1] = sp[1][:-1]
+                        if handle.automaticLogIn(sp[0], sp[1]):
+                            if handle.automaticChangePassword(sp[0], sp[1], config.newPassword):
+                                handle.automaticLogOut()
                 line = f.readline()
     except Exception as e:
         print(e)
