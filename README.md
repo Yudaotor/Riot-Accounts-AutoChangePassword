@@ -18,7 +18,7 @@ a21341----3512s5312
 (配置路径时,账号信息文件后面记得加.txt,driver后面记得加.exe)  
 (路径不要出现中文以及中文字符)  
 例子:  
-![{HU{X@VKE{FC6C4}JF}IT`5](https://user-images.githubusercontent.com/87225219/224707126-0ba934f6-c6b7-4c5c-a352-632e1801a837.png)
+![image](https://user-images.githubusercontent.com/87225219/225251261-dcd0573a-adf7-4e28-80c2-f6ce2d460c45.png)
 
 5. 程序执行后账号密码修改成功与否可以在log文件夹中查看.
 6. 下载方法,请点击右方的release中下载最新版的exe文件使用.
