@@ -15,6 +15,9 @@ class Config:
                 self.accountFilePath = config.get("accountFilePath").strip('u202a')
                 self.browser = config.get("browser")
                 self.webDriverPath = config.get("webDriverPath").strip('u202a')
+                self.imapServer = config.get("imapServer", "")
+                self.imapUsername = config.get("imapUsername", "")
+                self.imapPassword = config.get("imapPassword", "")
         except FileNotFoundError as ex:
             log.error("配置文件找不到")
             print("[red]配置文件找不到")

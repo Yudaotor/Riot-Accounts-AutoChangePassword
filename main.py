@@ -65,7 +65,11 @@ def main(config: Config):
                     if sp[1][-1] == '\n':
                         sp[1] = sp[1][:-1]
                         if handle.automaticLogIn(sp[0], sp[1]):
-                            if handle.automaticChangePassword(sp[0], sp[1], config.newPassword):
+                            if config.imapServer != "":
+                                if handle.imapLogIn(config.imapUsername, config.imapPassword, config.imapServer):
+                                    if handle.automaticChangePassword(sp[0], sp[1], config.newPassword):
+                                        handle.automaticLogOut()
+                            elif handle.automaticChangePassword(sp[0], sp[1], config.newPassword):
                                 handle.automaticLogOut()
                 line = f.readline()
     except Exception as e:
