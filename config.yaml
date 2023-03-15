@@ -1,0 +1,4 @@
+newPassword: "新密码"
+accountFilePath: "账号密码信息所在txt的文件路径(注意,需要使用'双杠'而不是'单杠')"
+browser: "edge或者chrome或者firefox(根据自己浏览器以及webdriver选择)"
+webDriverPath: "webdriver.exe的文件路径(注意,需要使用'双杠'而不是'单杠')"
