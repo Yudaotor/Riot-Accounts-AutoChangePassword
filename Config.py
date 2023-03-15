@@ -11,9 +11,10 @@ class Config:
             configPath = self.__findConfig(configPath)
             with open(configPath, "r", encoding='utf-8') as f:
                 config = yaml.safe_load(f)
-                self.msedgedriverPath = config.get("msedgedriverPath").strip('u202a')
                 self.newPassword = config.get("newPassword")
                 self.accountFilePath = config.get("accountFilePath").strip('u202a')
+                self.browser = config.get("browser")
+                self.webDriverPath = config.get("webDriverPath").strip('u202a')
         except FileNotFoundError as ex:
             log.error("配置文件找不到")
             print("[red]配置文件找不到")
