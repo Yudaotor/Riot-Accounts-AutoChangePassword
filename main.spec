@@ -31,7 +31,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='拳头自动修改密码v1.0',
+    name='拳头自动修改密码v2.1',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
