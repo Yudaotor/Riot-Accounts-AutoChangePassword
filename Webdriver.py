@@ -27,6 +27,7 @@ class Webdriver:
 
     def addWebdriverOptions(self, options):
         options.add_argument("log-level=3")
+        options.add_experimental_option("excludeSwitches", ["enable-logging"])
         user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.41"
         options.add_argument(f'user-agent={user_agent}')
         return options
