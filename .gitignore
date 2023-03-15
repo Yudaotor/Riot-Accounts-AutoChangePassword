@@ -12,7 +12,8 @@
 Pipfile.lock
 Pipfile
 *.txt
-
+*.exe
+*.yaml
 # Generated files
 .idea/**/contentModel.xml
 
