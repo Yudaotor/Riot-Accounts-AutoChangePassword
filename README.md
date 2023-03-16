@@ -3,7 +3,7 @@
   
 [English Version](https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/blob/master/README.EN.md)|
 [中文版本](https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/blob/master/README.md)
-# 本程序用于拳头账号自动修改密码  
+# 本程序用于拳头账号自动修改密码(!使用强烈建议挂上VPN,不然加载速度很慢容易导致程序失败!)  
 使用过程中有遇到什么问题可以联系我  
 telegram: https://t.me/Yudaotor  
 discord: Khalil#7843  
