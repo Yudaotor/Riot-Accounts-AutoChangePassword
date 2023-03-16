@@ -1,3 +1,6 @@
+## 效果演示:
+<img src="https://www.cdnjson.com/images/2023/03/16/tutieshi_640x360_41s.gif" alt="tutieshi_640x360_41s.gif" border="0" />  
+  
 [English Version](https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/blob/master/README.EN.md)|
 [中文版本](https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/blob/master/README.md)
 # 本程序用于拳头账号自动修改密码  
