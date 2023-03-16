@@ -26,4 +26,4 @@ a21341----3512s5312
 6. 下载方法,请点击右方的release中下载最新版的exe文件使用.
 7. 有无验证过邮箱的账号都可以使用.有验证过的需要在配置文件中加入对应的邮箱IMAP信息
 ## 程序运行控制台显示截图:
-![image](https://user-images.githubusercontent.com/87225219/225042983-1abf1ed8-fabc-4dbb-a7b8-b4b5df92ab05.png)
+![image](https://user-images.githubusercontent.com/87225219/225540315-faa5d20f-1fb5-45d2-915f-ba695ca8be2a.png)
