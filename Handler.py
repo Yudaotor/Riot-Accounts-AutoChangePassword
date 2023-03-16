@@ -18,11 +18,9 @@ class Handler:
             M = imaplib2.IMAP4_SSL(server)
             M.login(username, password)
             M.select("INBOX")
-            idler = IMAP(M)
-            idler.start()
-            idler.join()
+            mail = IMAP(M)
             M.logout()
-            return idler
+            return mail
         except Exception as e:
             print(e)
 
@@ -30,7 +28,7 @@ class Handler:
         try:
             time.sleep(1)
             wait = WebDriverWait(self.driver, 10)
-            self.driver.implicitly_wait(2)
+            self.driver.implicitly_wait(1)
             cookieButton = self.driver.find_elements(By.XPATH, '/html/body/div[1]/div[2]/div[2]/button[2]')
             if len(cookieButton) > 0:
                 cookieButton.click()
@@ -77,14 +75,21 @@ class Handler:
 
     def imapLogIn(self, imapUsername, imapPassword, imapServer) -> bool:
         try:
+            time.sleep(9)
             req = self.IMAPHook(imapUsername, imapPassword, imapServer)
             self.driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div/div/div[2]/div/div/div[1]/div/input').send_keys(req.code)
             self.driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div/div/button').click()
-            if len(req.code) == 6:
+            time.sleep(3)
+            buttonNumber = self.driver.find_elements(By.XPATH, '/html/body/div[2]/div[1]/div[2]/div[2]/div[2]/div/div[1]')
+            if len(req.code) == 6 and len(buttonNumber) > 0:
                 return True
             else:
+                self.driver.delete_all_cookies()
+                self.driver.refresh()
                 return False
         except Exception as e:
             self.log.error(imapUsername + " 邮箱验证码获取失败")
             print(imapUsername + " [red]邮箱验证码获取失败")
+            self.driver.delete_all_cookies()
+            self.driver.refresh()
             return False
