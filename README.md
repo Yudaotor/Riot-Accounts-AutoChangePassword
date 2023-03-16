@@ -7,6 +7,7 @@ discord: Khalil#7843
 可以给我点个小星星吗(*^_^*)⭐
 
 ## 使用须知:
+0. [已验证邮箱账号配置教程](https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/wiki/%E5%A6%82%E4%BD%95%E4%B8%BA%E9%AA%8C%E8%AF%81%E8%BF%87%E9%82%AE%E7%AE%B1%E7%9A%84%E8%B4%A6%E5%8F%B7%E8%87%AA%E5%8A%A8%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81(How-to-change-password-automatically-for-accounts-with-verified-emails))
 1. 本程序支持微软edge浏览器和chrome谷歌浏览器,所以需要下载好自己浏览器对应的webdriver这个东西.具体如何下载并配置,大家自行谷歌.(注意需要下载与自己浏览器匹配的版本)
 2. 需要进行修改密码的账号信息需要存储在txt文件中,具体格式为:  
 213451231----351252312  
