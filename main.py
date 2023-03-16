@@ -37,6 +37,7 @@ def init() -> tuple[logging.Logger, Config, webdriver.Edge]:
         except Exception as ex:
             print(ex)
             print("[red]找不到对应的webDriver!请检查路径是否正确或是否适配自己浏览器版本\n按任意键退出...")
+            log.error("找不到对应的webDriver!请检查路径是否正确或是否适配自己浏览器版本")
             input()
             exit()
         # 载入网页
@@ -44,10 +45,11 @@ def init() -> tuple[logging.Logger, Config, webdriver.Edge]:
         driver.maximize_window()  # 最大化窗口
     except Exception as e:
         print(e)
+        log.error(e)
     return log, config, driver
 
 
-CURRENT_VERSION = 2.2
+CURRENT_VERSION = 2.21
 log, config, driver = init()
 handle = Handler(log=log, driver=driver)
 if not VersionManager.isLatestVersion(CURRENT_VERSION):

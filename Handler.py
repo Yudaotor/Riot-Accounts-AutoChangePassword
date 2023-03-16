@@ -23,6 +23,7 @@ class Handler:
             return mail
         except Exception as e:
             print(e)
+            self.log.error(e)
 
     def automaticLogIn(self, username, password) -> bool:
         try:
@@ -31,7 +32,7 @@ class Handler:
             self.driver.implicitly_wait(1)
             cookieButton = self.driver.find_elements(By.XPATH, '/html/body/div[1]/div[2]/div[2]/button[2]')
             if len(cookieButton) > 0:
-                cookieButton.click()
+                cookieButton[0].click()
             time.sleep(1)
             usernameInput = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "input[name=username]")))
             usernameInput.send_keys(Keys.CONTROL, 'a')
@@ -46,6 +47,9 @@ class Handler:
         except Exception as e:
             self.log.error(username + " Fail")
             print(username + " [red]Fail")
+            self.driver.delete_all_cookies()
+            self.driver.refresh()
+            self.log.error(e)
             return False
 
     def automaticChangePassword(self, username, password, newPassword) -> bool:
@@ -66,6 +70,7 @@ class Handler:
         except Exception as e:
             self.log.error(username + " Fail")
             print(username + " [red]Fail")
+            self.log.error(e)
             return False
 
     def automaticLogOut(self):
@@ -92,4 +97,5 @@ class Handler:
             print(imapUsername + " [red]邮箱验证码获取失败")
             self.driver.delete_all_cookies()
             self.driver.refresh()
+            self.log.error(e)
             return False
