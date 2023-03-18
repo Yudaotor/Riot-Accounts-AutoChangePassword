@@ -15,8 +15,8 @@ from Logger import Logger
 # coding:utf-8
 
 
-def init() -> tuple[logging.Logger, Config, webdriver.Edge]:
-    global driver, config, log
+def init() -> tuple[logging.Logger, Config, webdriver.Edge, Handler]:
+    global driver, config, log, handler
     try:
         parser = argparse.ArgumentParser(description='英雄联盟外服自动改密码')
         parser.add_argument('-c', '--config', dest="configPath", default="./config.yaml", help='Path to a custom config file')
@@ -43,15 +43,17 @@ def init() -> tuple[logging.Logger, Config, webdriver.Edge]:
         # 载入网页
         driver.implicitly_wait(10)  # 隐式等待时间
         driver.maximize_window()  # 最大化窗口
+        handler = Handler(log=log, driver=driver)
+        handler.acceptCookies()
     except Exception as e:
         print(e)
         log.error(e)
-    return log, config, driver
+    return log, config, driver, handler
 
 
 CURRENT_VERSION = 2.22
-log, config, driver = init()
-handle = Handler(log=log, driver=driver)
+log, config, driver, handler = init()
+
 if not VersionManager.isLatestVersion(CURRENT_VERSION):
     print("[red]!!! 新版本可用 !!! 从此处下载: https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/releases/latest")
 
@@ -66,13 +68,13 @@ def main(config: Config):
                 if sp:
                     if sp[1][-1] == '\n':
                         sp[1] = sp[1][:-1]
-                        if handle.automaticLogIn(sp[0], sp[1]):
+                        if handler.automaticLogIn(sp[0], sp[1]):
                             if config.imapServer != "":
-                                if handle.imapLogIn(config.imapUsername, config.imapPassword, config.imapServer):
-                                    if handle.automaticChangePassword(sp[0], sp[1], config.newPassword):
-                                        handle.automaticLogOut()
-                            elif handle.automaticChangePassword(sp[0], sp[1], config.newPassword):
-                                handle.automaticLogOut()
+                                if handler.imapLogIn(config.imapUsername, config.imapPassword, config.imapServer):
+                                    if handler.automaticChangePassword(sp[0], sp[1], config.newPassword):
+                                        handler.automaticLogOut()
+                            elif handler.automaticChangePassword(sp[0], sp[1], config.newPassword):
+                                handler.automaticLogOut()
                 line = f.readline()
     except Exception as e:
         print(e)

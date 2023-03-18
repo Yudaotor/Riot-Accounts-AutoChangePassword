@@ -27,13 +27,21 @@ class Handler:
             traceback.print_exc()
             self.log.error(e)
 
-    def automaticLogIn(self, username, password) -> bool:
+    def acceptCookies(self):
         try:
             time.sleep(1)
-            self.driver.implicitly_wait(1)
+            self.driver.implicitly_wait(2)
             cookieButton = self.driver.find_elements(By.XPATH, '/html/body/div[1]/div[2]/div[2]/button[2]')
             if len(cookieButton) > 0:
                 cookieButton[0].click()
+            self.driver.implicitly_wait(10)
+        except Exception as e:
+            traceback.print_exc()
+            self.log.error(e)
+            self.log.error("接受Cookies发生错误" + e.__str__())
+
+    def automaticLogIn(self, username, password) -> bool:
+        try:
             self.driver.implicitly_wait(10)
             time.sleep(2)
             wait = WebDriverWait(self.driver, 10)
