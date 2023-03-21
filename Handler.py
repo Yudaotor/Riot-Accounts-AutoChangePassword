@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from rich import print
 from IMAP import IMAP
+from Export import Export
 
 
 class Handler:
@@ -64,7 +65,7 @@ class Handler:
             traceback.print_exc()
             return False
 
-    def automaticChangePassword(self, username, password, newPassword) -> bool:
+    def automaticChangePassword(self, username, password, newPassword, delimiter) -> bool:
         try:
             self.driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[2]/div[1]/div/div/input').send_keys(password)
             time.sleep(1)
@@ -77,6 +78,7 @@ class Handler:
             time.sleep(2)
             self.log.info(username + " Success")
             print(username + " [green]Success")
+            Export(delimiter).write_txt(username, newPassword)
             return True
         except Exception as e:
             self.log.error(username + " Fail")
@@ -95,9 +97,9 @@ class Handler:
             self.log.error("登出时发生错误" + e.__str__())
             traceback.print_exc()
 
-    def imapLogIn(self, imapUsername, imapPassword, imapServer) -> bool:
+    def imapLogIn(self, imapUsername, imapPassword, imapServer, imapDelay) -> bool:
         try:
-            time.sleep(9)
+            time.sleep(imapDelay)
             req = self.IMAPHook(imapUsername, imapPassword, imapServer)
             self.driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div/div/div[2]/div/div/div[1]/div/input').send_keys(req.code)
             self.driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div/div/button').click()
