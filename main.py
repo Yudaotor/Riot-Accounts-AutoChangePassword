@@ -22,10 +22,11 @@ def init() -> tuple[logging.Logger, Config, webdriver.Edge, Handler]:
         parser.add_argument('-c', '--config', dest="configPath", default="./config.yaml", help='Path to a custom config file')
         args = parser.parse_args()
         Path("./logs/").mkdir(parents=True, exist_ok=True)
+        Path("./accounts/").mkdir(parents=True, exist_ok=True)
         log = Logger.createLogger()
         config = Config(log, args.configPath)
         try:
-            driver = Webdriver(browser=config.browser, driverPath=config.webDriverPath).createWebdriver()
+            driver = Webdriver(browser=config.browser).createWebdriver()
             driver.get('https://auth.riotgames.com/login#acr_values=urn%3Ariot%3Agold&client_id=accountodactyl-prod&redirect_uri'
                        '=https%3A%2F%2Faccount.riotgames.com%2Foauth2%2Flog-in&response_type=code&scope=openid%20email%20profile'
                        '%20riot%3A%2F%2Friot.atlas%2Faccounts.edit%20riot%3A%2F%2Friot.atlas%2Faccounts%2Fpassword.edit%20riot'
@@ -51,11 +52,13 @@ def init() -> tuple[logging.Logger, Config, webdriver.Edge, Handler]:
     return log, config, driver, handler
 
 
-CURRENT_VERSION = 2.22
+CURRENT_VERSION = 2.3
 log, config, driver, handler = init()
 
 if not VersionManager.isLatestVersion(CURRENT_VERSION):
+    print("[red]--------------------------------------------------------------------")
     print("[red]!!! 新版本可用 !!! 从此处下载: https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/releases/latest")
+    print("[red]--------------------------------------------------------------------")
 
 
 def main(config: Config):
@@ -64,17 +67,17 @@ def main(config: Config):
         with open(config.accountFilePath) as f:
             line = f.readline()
             while line:
-                sp = line.split('----')
+                sp = line.split(config.accountDelimiter)
                 if sp:
                     if sp[1][-1] == '\n':
                         sp[1] = sp[1][:-1]
-                        if handler.automaticLogIn(sp[0], sp[1]):
-                            if config.imapServer != "":
-                                if handler.imapLogIn(config.imapUsername, config.imapPassword, config.imapServer):
-                                    if handler.automaticChangePassword(sp[0], sp[1], config.newPassword):
-                                        handler.automaticLogOut()
-                            elif handler.automaticChangePassword(sp[0], sp[1], config.newPassword):
-                                handler.automaticLogOut()
+                    if handler.automaticLogIn(sp[0], sp[1]):
+                        if config.imapServer != "":
+                            if handler.imapLogIn(config.imapUsername, config.imapPassword, config.imapServer, config.imapDelay):
+                                if handler.automaticChangePassword(sp[0], sp[1], config.newPassword, config.accountDelimiter):
+                                    handler.automaticLogOut()
+                        elif handler.automaticChangePassword(sp[0], sp[1], config.newPassword, config.accountDelimiter):
+                            handler.automaticLogOut()
                 line = f.readline()
     except Exception as e:
         print(e)
@@ -87,7 +90,8 @@ if __name__ == '__main__':
         print("[red]------程序退出------")
         sys.exit()
     print("[yellow]------程序退出, 将在3秒后结束------")
+    print("[green]----修改成功的新账密请于newAccounts文件夹中查看-----")
     print("[yellow]---本次运行结果可于log文件夹中查看---")
     time.sleep(3)
     driver.quit()
-    exit()
+    sys.exit()
