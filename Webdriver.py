@@ -1,25 +1,32 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.edge.service import Service as EdgeService
-
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
+from rich import print
 
 class Webdriver:
-    def __init__(self, browser, driverPath) -> None:
+    def __init__(self, browser) -> None:
         self.browser = browser
-        self.driverPath = driverPath
 
     def createWebdriver(self):
-        match self.browser:
-            case "chrome":
-                options = self.addWebdriverOptions(webdriver.ChromeOptions())
-                service = ChromeService(self.driverPath)
-                return webdriver.Chrome(service=service, options=options)
-            case "edge":
-                options = self.addWebdriverOptions(webdriver.EdgeOptions())
-                service = EdgeService(self.driverPath)
-                return webdriver.Edge(service=service, options=options)
-            case _:
-                print("Unsupported browser")
+        try:
+            match self.browser:
+                case "chrome":
+                    driverPath = ChromeDriverManager(path=".\\driver").install()
+                    options = self.addWebdriverOptions(webdriver.ChromeOptions())
+                    service = ChromeService(driverPath)
+                    return webdriver.Chrome(service=service, options=options)
+                case "edge":
+                    driverPath = EdgeChromiumDriverManager(path=".\\driver").install()
+                    options = self.addWebdriverOptions(webdriver.EdgeOptions())
+                    service = EdgeService(driverPath)
+                    return webdriver.Edge(service=service, options=options)
+                case _:
+                    print("选择了不支持的浏览器")
+        except Exception as ex:
+            print("[red]创建webdriver失败,请检查是否对应浏览器是否已经是最新版本.")
+            raise ex
 
     def addWebdriverOptions(self, options):
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
