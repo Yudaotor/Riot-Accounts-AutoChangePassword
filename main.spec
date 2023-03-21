@@ -7,7 +7,12 @@ block_cipher = None
 a = Analysis(
     ['main.py',
     'Logger.py',
-    'Config.py'
+    'Config.py',
+    'Handler.py',
+    'Export.py',
+    'IMAP.py',
+    'VersionManager.py',
+    'Webdriver.py'
     ],
     pathex=['C:\\Users\\Khalil\\Desktop\\xiaohao'],
     binaries=[],
@@ -31,7 +36,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='拳头自动修改密码v2.1',
+    name='拳头自动修改密码v2.3',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
