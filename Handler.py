@@ -76,9 +76,9 @@ class Handler:
             self.driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[1]/p').click()
             self.driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[3]/button[2]').click()
             time.sleep(2)
+            Export(delimiter).write_txt(username, newPassword)
             self.log.info(username + " Success")
             print(username + " [green]Success")
-            Export(delimiter).write_txt(username, newPassword)
             return True
         except Exception as e:
             self.log.error(username + " Fail")

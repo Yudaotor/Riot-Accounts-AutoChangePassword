@@ -22,7 +22,7 @@ def init() -> tuple[logging.Logger, Config, webdriver.Edge, Handler]:
         parser.add_argument('-c', '--config', dest="configPath", default="./config.yaml", help='Path to a custom config file')
         args = parser.parse_args()
         Path("./logs/").mkdir(parents=True, exist_ok=True)
-        Path("./accounts/").mkdir(parents=True, exist_ok=True)
+        Path("./newAccounts/").mkdir(parents=True, exist_ok=True)
         log = Logger.createLogger()
         config = Config(log, args.configPath)
         try:
