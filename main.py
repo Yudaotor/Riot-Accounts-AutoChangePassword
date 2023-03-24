@@ -52,7 +52,7 @@ def init() -> tuple[logging.Logger, Config, webdriver.Edge, Handler]:
     return log, config, driver, handler
 
 
-CURRENT_VERSION = 2.3
+CURRENT_VERSION = 2.31
 log, config, driver, handler = init()
 
 if not VersionManager.isLatestVersion(CURRENT_VERSION):

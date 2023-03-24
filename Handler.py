@@ -104,12 +104,15 @@ class Handler:
             self.driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div/div/div[2]/div/div/div[1]/div/input').send_keys(req.code)
             self.driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div/div/button').click()
             time.sleep(3)
+            self.driver.implicitly_wait(10)
             buttonNumber = self.driver.find_elements(By.XPATH, '/html/body/div[2]/div[1]/div[2]/div[2]/div[2]/div/div[1]')
             if len(req.code) == 6 and len(buttonNumber) > 0:
                 return True
             else:
                 self.driver.delete_all_cookies()
                 self.driver.refresh()
+                self.log.error(imapUsername + " 邮箱验证码获取失败")
+                print(imapUsername + " [red]邮箱验证码获取失败")
                 return False
         except Exception as e:
             self.log.error(imapUsername + " 邮箱验证码获取失败")

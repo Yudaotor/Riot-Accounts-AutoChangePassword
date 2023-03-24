@@ -19,6 +19,10 @@ class Config:
                 self.imapUsername = config.get("imapUsername", "")
                 self.imapPassword = config.get("imapPassword", "")
                 self.imapDelay = config.get("imapDelay", 10)
+                print(type(self.imapDelay))
+                if isinstance(self.imapDelay, str):
+                    self.imapDelay = int(self.imapDelay)
+                print(type(self.imapDelay))
         except FileNotFoundError as ex:
             log.error("配置文件找不到")
             print("[red]配置文件找不到")
