@@ -1,9 +1,12 @@
+import traceback
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.edge.service import Service as EdgeService
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from rich import print
+
 
 class Webdriver:
     def __init__(self, browser) -> None:
@@ -26,6 +29,7 @@ class Webdriver:
                     print("选择了不支持的浏览器")
         except Exception as ex:
             print("[red]创建webdriver失败,请检查是否对应浏览器是否已经是最新版本.")
+            traceback.print_exc()
             raise ex
 
     def addWebdriverOptions(self, options):

@@ -26,7 +26,7 @@ class Handler:
             return mail
         except Exception as e:
             traceback.print_exc()
-            self.log.error(e)
+            self.log.error(traceback.format_exc())
 
     def acceptCookies(self):
         try:
@@ -38,8 +38,7 @@ class Handler:
             self.driver.implicitly_wait(10)
         except Exception as e:
             traceback.print_exc()
-            self.log.error(e)
-            self.log.error("接受Cookies发生错误" + e.__str__())
+            self.log.error("接受Cookies发生错误" + traceback.format_exc())
 
     def automaticLogIn(self, username, password) -> bool:
         try:
@@ -61,7 +60,7 @@ class Handler:
             print(username + " [red]Fail")
             self.driver.delete_all_cookies()
             self.driver.refresh()
-            self.log.error("登陆时发生错误" + e.__str__())
+            self.log.error("登录时发生错误" + traceback.format_exc())
             traceback.print_exc()
             return False
 
@@ -83,7 +82,7 @@ class Handler:
         except Exception as e:
             self.log.error(username + " Fail")
             print(username + " [red]Fail")
-            self.log.error("改密时发生错误" + e.__str__())
+            self.log.error("改密时发生错误" + traceback.format_exc())
             traceback.print_exc()
             return False
 
@@ -94,13 +93,17 @@ class Handler:
             self.driver.find_element(by=By.XPATH, value='//*[@id="riotbar-account-dropdown-links"]/a[3]').click()
             time.sleep(2)
         except Exception as e:
-            self.log.error("登出时发生错误" + e.__str__())
+            self.log.error("登出时发生错误" + traceback.format_exc())
             traceback.print_exc()
 
     def imapLogIn(self, imapUsername, imapPassword, imapServer, imapDelay) -> bool:
         try:
             time.sleep(imapDelay)
             req = self.IMAPHook(imapUsername, imapPassword, imapServer)
+            if req is None or req.code is "":
+                self.log.error("IMAP获取验证码失败")
+                print("IMAP获取验证码失败")
+                return False
             self.driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div/div/div[2]/div/div/div[1]/div/input').send_keys(req.code)
             self.driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div/div/button').click()
             time.sleep(3)
@@ -119,6 +122,6 @@ class Handler:
             print(imapUsername + " [red]邮箱验证码获取失败")
             self.driver.delete_all_cookies()
             self.driver.refresh()
-            self.log.error("邮箱验证时发生错误" + e.__str__())
+            self.log.error("邮箱验证时发生错误" + traceback.format_exc())
             traceback.print_exc()
             return False

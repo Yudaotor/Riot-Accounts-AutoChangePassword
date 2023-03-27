@@ -1,4 +1,5 @@
 import email
+import traceback
 from threading import *
 from datetime import datetime
 import re
@@ -14,7 +15,7 @@ def fetchCode(self):
                 if mail['From'].find('noreply@mail.accounts.riotgames.com') > -1:
                     self.code = re.findall(r'\d{6}', mail["Subject"])[0]
     except Exception as e:
-        print(e)
+        traceback.print_exc()
 
 
 class IMAP(object):

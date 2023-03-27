@@ -1,6 +1,7 @@
 import argparse
 import logging
 import sys
+import traceback
 from pathlib import Path
 from Handler import Handler
 from VersionManager import VersionManager
@@ -36,9 +37,10 @@ def init() -> tuple[logging.Logger, Config, webdriver.Edge, Handler]:
                        '%2Fmfa%2Fdevice.write%20riot%3A%2F%2Friot.authenticator%2Fidentity.add&state=547c8cd2-9eb0-4302-b9b2'
                        '-f29ee843a4bd&ui_locales=zh-Hans')
         except Exception as ex:
-            print(ex)
-            print("[red]找不到对应的webDriver!请检查路径是否正确或是否适配自己浏览器版本\n按任意键退出...")
-            log.error("找不到对应的webDriver!请检查路径是否正确或是否适配自己浏览器版本")
+            traceback.print_exc()
+            print("[red]webDriver创建失败!\n按任意键退出...")
+            log.error("webDriver创建失败!")
+            log.error(traceback.format_exc())
             input()
             exit()
         # 载入网页
@@ -47,8 +49,8 @@ def init() -> tuple[logging.Logger, Config, webdriver.Edge, Handler]:
         handler = Handler(log=log, driver=driver)
         handler.acceptCookies()
     except Exception as e:
-        print(e)
-        log.error(e)
+        traceback.print_exc()
+        log.error(traceback.format_exc())
     return log, config, driver, handler
 
 
@@ -80,7 +82,8 @@ def main(config: Config):
                             handler.automaticLogOut()
                 line = f.readline()
     except Exception as e:
-        print(e)
+        traceback.print_exc()
+        log.error(traceback.format_exc())
 
 
 if __name__ == '__main__':
