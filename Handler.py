@@ -100,7 +100,7 @@ class Handler:
         try:
             time.sleep(imapDelay)
             req = self.IMAPHook(imapUsername, imapPassword, imapServer)
-            if req is None or req.code is "":
+            if req is None or req.code == "":
                 self.log.error("IMAP获取验证码失败")
                 print("IMAP获取验证码失败")
                 return False
