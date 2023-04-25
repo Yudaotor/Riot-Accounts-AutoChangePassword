@@ -14,7 +14,7 @@ def fetchCode(self):
                 mail = email.message_from_bytes(info[0][1])
                 if mail['From'].find('noreply@mail.accounts.riotgames.com') > -1:
                     self.code = re.findall(r'\d{6}', mail["Subject"])[0]
-    except Exception as e:
+    except Exception:
         traceback.print_exc()
 
 

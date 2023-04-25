@@ -9,6 +9,7 @@ from selenium.webdriver.support import expected_conditions as ec
 from rich import print
 from IMAP import IMAP
 from Export import Export
+from selenium.webdriver.common.keys import Keys
 
 
 class Handler:
@@ -24,8 +25,9 @@ class Handler:
             mail = IMAP(M)
             M.logout()
             return mail
-        except Exception as e:
-            traceback.print_exc()
+        except Exception:
+            print("[red]IMAP连接失败")
+            self.log.error("IMAP连接失败")
             self.log.error(traceback.format_exc())
 
     def acceptCookies(self):
@@ -36,8 +38,8 @@ class Handler:
             if len(cookieButton) > 0:
                 cookieButton[0].click()
             self.driver.implicitly_wait(10)
-        except Exception as e:
-            traceback.print_exc()
+        except Exception:
+            print("[red]接受Cookies发生错误")
             self.log.error("接受Cookies发生错误" + traceback.format_exc())
 
     def automaticLogIn(self, username, password) -> bool:
@@ -55,13 +57,13 @@ class Handler:
             submitButton = wait.until(ec.presence_of_element_located((By.XPATH, "/html/body/div[2]/div/div/div[2]/div/div/button")))
             self.driver.execute_script("arguments[0].click();", submitButton)
             return True
-        except Exception as e:
+        except Exception:
             self.log.error(username + " Fail")
             print(username + " [red]Fail")
             self.driver.delete_all_cookies()
             self.driver.refresh()
+            print("[red]登录时发生错误")
             self.log.error("登录时发生错误" + traceback.format_exc())
-            traceback.print_exc()
             return False
 
     def automaticChangePassword(self, username, password, newPassword, delimiter) -> bool:
@@ -72,18 +74,19 @@ class Handler:
             time.sleep(1)
             self.driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[2]/div[2]/div/input').send_keys(newPassword)
             time.sleep(1)
-            self.driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[1]/p').click()
+            self.driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[2]/div[1]/div/div/input').click()
+            time.sleep(1)
             self.driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[3]/button[2]').click()
             time.sleep(2)
             Export(delimiter).write_txt(username, newPassword)
             self.log.info(username + " Success")
             print(username + " [green]Success")
             return True
-        except Exception as e:
+        except Exception:
             self.log.error(username + " Fail")
             print(username + " [red]Fail")
+            print("[red]改密时发生错误")
             self.log.error("改密时发生错误" + traceback.format_exc())
-            traceback.print_exc()
             return False
 
     def automaticLogOut(self):
@@ -92,9 +95,9 @@ class Handler:
             time.sleep(1)
             self.driver.find_element(by=By.XPATH, value='//*[@id="riotbar-account-dropdown-links"]/a[3]').click()
             time.sleep(2)
-        except Exception as e:
+        except Exception:
+            print("[red]登出时发生错误")
             self.log.error("登出时发生错误" + traceback.format_exc())
-            traceback.print_exc()
 
     def imapLogIn(self, imapUsername, imapPassword, imapServer, imapDelay) -> bool:
         try:
@@ -117,11 +120,10 @@ class Handler:
                 self.log.error(imapUsername + " 邮箱验证码获取失败")
                 print(imapUsername + " [red]邮箱验证码获取失败")
                 return False
-        except Exception as e:
+        except Exception:
             self.log.error(imapUsername + " 邮箱验证码获取失败")
             print(imapUsername + " [red]邮箱验证码获取失败")
             self.driver.delete_all_cookies()
             self.driver.refresh()
             self.log.error("邮箱验证时发生错误" + traceback.format_exc())
-            traceback.print_exc()
             return False

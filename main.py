@@ -36,9 +36,9 @@ def init() -> tuple[logging.Logger, Config, webdriver.Edge, Handler]:
                        '%2F%2Friot.authenticator%2Fauth.code%20riot%3A%2F%2Friot.authenticator%2Fauthz.edit%20riot%3A%2F%2Frso'
                        '%2Fmfa%2Fdevice.write%20riot%3A%2F%2Friot.authenticator%2Fidentity.add&state=547c8cd2-9eb0-4302-b9b2'
                        '-f29ee843a4bd&ui_locales=zh-Hans')
-        except Exception as ex:
+        except Exception:
             traceback.print_exc()
-            print("[red]webDriver创建失败!\n按任意键退出...")
+            print("[red]webDriver创建失败!\n按回车键退出...")
             log.error("webDriver创建失败!")
             log.error(traceback.format_exc())
             input()
@@ -48,13 +48,13 @@ def init() -> tuple[logging.Logger, Config, webdriver.Edge, Handler]:
         driver.maximize_window()  # 最大化窗口
         handler = Handler(log=log, driver=driver)
         handler.acceptCookies()
-    except Exception as e:
+    except Exception:
         traceback.print_exc()
         log.error(traceback.format_exc())
     return log, config, driver, handler
 
 
-CURRENT_VERSION = 2.31
+CURRENT_VERSION = 2.32
 log, config, driver, handler = init()
 
 if not VersionManager.isLatestVersion(CURRENT_VERSION):
@@ -81,7 +81,7 @@ def main(config: Config):
                         elif handler.automaticChangePassword(sp[0], sp[1], config.newPassword, config.accountDelimiter):
                             handler.automaticLogOut()
                 line = f.readline()
-    except Exception as e:
+    except Exception:
         traceback.print_exc()
         log.error(traceback.format_exc())
 

@@ -10,5 +10,5 @@ class Export:
         try:
             with open('./newAccounts/' + time.strftime("%Y%m%d-") + 'accounts.txt', 'a') as f:
                 f.write(f"{username}{self.delimiter}{password}\n")
-        except Exception as e:
+        except Exception:
             traceback.print_exc()
