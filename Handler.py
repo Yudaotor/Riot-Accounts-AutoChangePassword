@@ -2,6 +2,7 @@ import time
 import traceback
 
 from imaplib2 import imaplib2
+import imaplib
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
