@@ -11,7 +11,11 @@ from IMAP import IMAP
 from Export import Export
 from selenium.webdriver.common.keys import Keys
 
-
+def setid(conn, username):
+    imaplib.Commands['ID'] = 'AUTH'
+    args = ("name", username.split("@")[0], "contact", username, "version", "1.0.0", "vendor", username.split("@")[0]+"Client")
+    typ, dat = conn._simple_command('ID', '("' + '" "'.join(args) + '")')
+    
 class Handler:
     def __init__(self, log, driver) -> None:
         self.log = log
@@ -21,6 +25,7 @@ class Handler:
         try:
             M = imaplib2.IMAP4_SSL(server)
             M.login(username, password)
+            setid(M, username)
             M.select("INBOX")
             mail = IMAP(M)
             M.logout()
