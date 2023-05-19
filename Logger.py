@@ -22,7 +22,7 @@ class Logger:
             level=level,
             handlers=[fileHandler],
         )
-        log = logging.getLogger("改密码")
+        log = logging.getLogger("PasswordChange")
         log.info("-------------------------------------------------")
         log.info("----------- Program started   ---------------")
         log.info("----------- 本项目开源于github   ---------------")

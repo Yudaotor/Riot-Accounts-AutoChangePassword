@@ -1,9 +1,8 @@
 import time
-import traceback
+from traceback import format_exc
 
 from imaplib2 import imaplib2
 import imaplib
-from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
@@ -11,30 +10,26 @@ from rich import print
 from IMAP import IMAP
 from Export import Export
 from selenium.webdriver.common.keys import Keys
+from I18n import _, _log
 
-def setid(conn, username):
-    imaplib.Commands['ID'] = 'AUTH'
-    args = ("name", username.split("@")[0], "contact", username, "version", "1.0.0", "vendor", username.split("@")[0]+"Client")
-    typ, dat = conn._simple_command('ID', '("' + '" "'.join(args) + '")')
-    
+
 class Handler:
-    def __init__(self, log, driver) -> None:
+    def __init__(self, log, driver, config) -> None:
         self.log = log
         self.driver = driver
+        self.config = config
 
     def IMAPHook(self, username, password, server):
         try:
             M = imaplib2.IMAP4_SSL(server)
             M.login(username, password)
-            setid(M, username)
-            M.select("INBOX")
-            mail = IMAP(M)
+            mail = IMAP(M, username)
             M.logout()
             return mail
         except Exception:
-            print("[red]IMAP连接失败")
-            self.log.error("IMAP连接失败")
-            self.log.error(traceback.format_exc())
+            print(_("IMAP连接失败", "red", self.config.language))
+            self.log.error(_log("IMAP连接失败", self.config.language))
+            self.log.error(format_exc())
 
     def acceptCookies(self):
         try:
@@ -45,8 +40,9 @@ class Handler:
                 cookieButton[0].click()
             self.driver.implicitly_wait(10)
         except Exception:
-            print("[red]接受Cookies发生错误")
-            self.log.error("接受Cookies发生错误" + traceback.format_exc())
+            print(_("接受Cookies发生错误", "red", self.config.language))
+            self.log.error(_log("接受Cookies发生错误", self.config.language))
+            self.log.error(format_exc())
 
     def automaticLogIn(self, username, password) -> bool:
         try:
@@ -64,12 +60,13 @@ class Handler:
             self.driver.execute_script("arguments[0].click();", submitButton)
             return True
         except Exception:
-            self.log.error(username + " Fail")
-            print(username + " [red]Fail")
+            self.log.error(username + _log(" 失败", self.config.language))
+            print(username + _(" 失败", "red", self.config.language))
             self.driver.delete_all_cookies()
             self.driver.refresh()
-            print("[red]登录时发生错误")
-            self.log.error("登录时发生错误" + traceback.format_exc())
+            print(_("登录时发生错误", "red", self.config.language))
+            self.log.error(_log("登录时发生错误", self.config.language))
+            self.log.error(format_exc())
             return False
 
     def automaticChangePassword(self, username, password, newPassword, delimiter) -> bool:
@@ -85,14 +82,15 @@ class Handler:
             self.driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[3]/button[2]').click()
             time.sleep(2)
             Export(delimiter).write_txt(username, newPassword)
-            self.log.info(username + " Success")
-            print(username + " [green]Success")
+            self.log.info(username + _log(" 成功", self.config.language))
+            print(username + _log(" 成功", self.config.language))
             return True
         except Exception:
-            self.log.error(username + " Fail")
-            print(username + " [red]Fail")
-            print("[red]改密时发生错误")
-            self.log.error("改密时发生错误" + traceback.format_exc())
+            self.log.error(username + _log(" 失败", self.config.language))
+            print(username + _(" 失败", "red", self.config.language))
+            print(_("改密时发生错误", "red", self.config.language))
+            self.log.error(_log("改密时发生错误", self.config.language))
+            self.log.error(format_exc())
             return False
 
     def automaticLogOut(self):
@@ -102,16 +100,17 @@ class Handler:
             self.driver.find_element(by=By.XPATH, value='//*[@id="riotbar-account-dropdown-links"]/a[3]').click()
             time.sleep(2)
         except Exception:
-            print("[red]登出时发生错误")
-            self.log.error("登出时发生错误" + traceback.format_exc())
+            print(_("登出时发生错误", "red", self.config.language))
+            self.log.error(_log("登出时发生错误", self.config.language))
+            self.log.error(format_exc())
 
     def imapLogIn(self, imapUsername, imapPassword, imapServer, imapDelay) -> bool:
         try:
             time.sleep(imapDelay)
             req = self.IMAPHook(imapUsername, imapPassword, imapServer)
             if req is None or req.code == "":
-                self.log.error("IMAP获取验证码失败")
-                print("IMAP获取验证码失败")
+                self.log.error(_log("IMAP获取验证码失败", self.config.language))
+                print(_("IMAP获取验证码失败", "red", self.config.language))
                 return False
             self.driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div/div/div[2]/div/div/div[1]/div/input').send_keys(req.code)
             self.driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div/div/button').click()
@@ -123,13 +122,13 @@ class Handler:
             else:
                 self.driver.delete_all_cookies()
                 self.driver.refresh()
-                self.log.error(imapUsername + " 邮箱验证码获取失败")
-                print(imapUsername + " [red]邮箱验证码获取失败")
+                self.log.error(imapUsername + _log(" 邮箱验证码获取失败", self.config.language))
+                print(imapUsername + _(" 邮箱验证码获取失败", "red", self.config.language))
                 return False
         except Exception:
-            self.log.error(imapUsername + " 邮箱验证码获取失败")
-            print(imapUsername + " [red]邮箱验证码获取失败")
+            self.log.error(imapUsername + _log(" 邮箱验证码获取失败", self.config.language))
+            print(imapUsername + _(" 邮箱验证码获取失败", "red", self.config.language))
             self.driver.delete_all_cookies()
             self.driver.refresh()
-            self.log.error("邮箱验证时发生错误" + traceback.format_exc())
+            self.log.error(format_exc())
             return False

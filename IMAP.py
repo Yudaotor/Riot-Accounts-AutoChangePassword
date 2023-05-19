@@ -3,6 +3,13 @@ import traceback
 from threading import *
 from datetime import datetime
 import re
+import imaplib
+
+
+def setId(conn, username):
+    imaplib.Commands['ID'] = 'AUTH'
+    args = ("name", username.split("@")[0], "contact", username, "version", "1.0.0", "vendor", username.split("@")[0]+"Client")
+    conn._simple_command('ID', '("' + '" "'.join(args) + '")')
 
 
 def fetchCode(self):
@@ -19,7 +26,9 @@ def fetchCode(self):
 
 
 class IMAP(object):
-    def __init__(self, conn):
+    def __init__(self, conn, username):
+        setId(conn, username)
+        conn.select("INBOX")
         self.M = conn
         self.code = ""
         fetchCode(self)

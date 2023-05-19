@@ -4,6 +4,7 @@ import yaml
 from yaml.parser import ParserError
 from rich import print
 from pathlib import Path
+from I18n import _, _log
 
 
 class Config:
@@ -11,9 +12,9 @@ class Config:
         try:
             configPath = self.__findConfig(configPath)
             if configPath is None:
-                print("[red]配置文件找不到")
-                log.error("配置文件找不到")
-                input("按回车键退出...")
+                print("[red]Config file not found")
+                log.error("Config file not found")
+                input("Press Enter to exit...")
                 os.kill(os.getpid(), 9)
             with open(configPath, "r", encoding='utf-8') as f:
                 config = yaml.safe_load(f)
@@ -25,16 +26,17 @@ class Config:
                 self.imapUsername = config.get("imapUsername", "")
                 self.imapPassword = config.get("imapPassword", "")
                 self.imapDelay = config.get("imapDelay", 10)
+                self.language = config.get("language", "zh_CN")
                 self.format()
         except (ParserError, KeyError):
-            log.error("配置文件格式错误")
-            print("[red]配置文件格式错误")
-            input("按回车键退出...")
+            log.error("Config file format error")
+            print("[red]Config file format error")
+            input("Press Enter to exit...")
             os.kill(os.getpid(), 9)
         except Exception:
-            log.error("配置文件读取错误")
-            print("[red]配置文件读取错误")
-            input("按回车键退出...")
+            log.error("Config file read error")
+            print("[red]Config file read error")
+            input("Press Enter to exit...")
             os.kill(os.getpid(), 9)
 
     def __findConfig(self, configPath):
@@ -45,6 +47,9 @@ class Config:
             return None
 
     def format(self):
+        if self.language not in ["zh_CN", "en_US", "zh_TW"]:
+            self.language = "zh_CN"
+            print(_("语言格式错误, 已重置为默认值zh_CN", "red", self.language))
         if isinstance(self.imapDelay, str):
             try:
                 self.imapDelay = int(self.imapDelay)
@@ -57,39 +62,43 @@ class Config:
             if self.accountDelimiter == "":
                 self.accountDelimiter = "----"
         else:
-            print("[red]分隔符格式错误, 已重置为默认值----")
-            logging.error("分隔符格式错误, 已重置为默认值----")
+            print(_("分隔符格式错误, 已重置为默认值----", "red", self.language))
+            logging.error(_log("分隔符格式错误, 已重置为默认值----", self.language))
             self.accountDelimiter = "----"
 
         if isinstance(self.browser, str):
             if self.browser not in ["edge", "chrome"]:
-                print("[red]浏览器格式错误, 已重置为默认值edge")
-                logging.error("浏览器格式错误, 已重置为默认值edge")
+                print(_("浏览器格式错误, 已重置为默认值edge", "red", self.language))
+                logging.error(_log("浏览器格式错误, 已重置为默认值edge", self.language))
                 self.browser = "edge"
         else:
-            print("[red]浏览器格式错误, 已重置为默认值edge")
-            logging.error("浏览器格式错误, 已重置为默认值edge")
+            print(_("浏览器格式错误, 已重置为默认值edge", "red", self.language))
+            logging.error(_log("浏览器格式错误, 已重置为默认值edge", self.language))
             self.browser = "edge"
         if isinstance(self.imapServer, str):
             if self.imapServer == "":
                 self.imapServer = ""
         else:
-            print("[red]imap服务器格式错误, 已重置为空")
-            logging.error("imap服务器格式错误, 已重置为空")
+            print(_("imap服务器格式错误, 已重置为空", "red", self.language))
+            logging.error(_log("imap服务器格式错误, 已重置为空", self.language))
             self.imapServer = ""
         if isinstance(self.imapUsername, str):
             if self.imapUsername == "":
                 self.imapUsername = ""
         else:
-            print("[red]imap用户名格式错误, 已重置为空")
-            logging.error("imap用户名格式错误, 已重置为空")
+            print(_("imap用户名格式错误, 已重置为空", "red", self.language))
+            logging.error(_log("imap用户名格式错误, 已重置为空", self.language))
             self.imapUsername = ""
         if isinstance(self.imapPassword, str):
             if self.imapPassword == "":
                 self.imapPassword = ""
         else:
-            print("[red]imap密码格式错误, 已重置为空")
-            logging.error("imap密码格式错误, 已重置为空")
+            print(_("imap密码格式错误, 已重置为空", "red", self.language))
+            logging.error(_log("imap密码格式错误, 已重置为空", self.language))
             self.imapPassword = ""
         if self.imapServer == "imap.qq.com":
-            print("[yellow]提示:QQ邮箱需要的不是密码, 而是授权码,如已经是授权码请忽略")
+            print(_("检测到您使用的是QQ邮箱, 请注意QQ邮箱的IMAP功能需要手动开启,以及需要的是授权码而非密码", "yellow", self.language))
+            logging.warning(_log("检测到您使用的是QQ邮箱, 请注意QQ邮箱的IMAP功能需要手动开启,以及需要的是授权码而非密码", self.language))
+        elif self.imapServer == "imap.163.com" or self.imapServer == "imap.126.com":
+            print(_("检测到您使用的是网易邮箱, 请注意网易邮箱的IMAP功能需要手动开启,以及需要的是授权码而非密码", "yellow", self.language))
+            logging.warning(_log("检测到您使用的是网易邮箱, 请注意网易邮箱的IMAP功能需要手动开启,以及需要的是授权码而非密码", self.language))
