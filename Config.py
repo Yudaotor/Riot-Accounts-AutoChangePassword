@@ -40,6 +40,15 @@ class Config:
             os.kill(os.getpid(), 9)
 
     def __findConfig(self, configPath):
+        """
+        Finds the configuration file at the specified path.
+
+        Args:
+            configPath (str): The path to the configuration file.
+
+        Returns:
+            Union[Path, None]: The path to the configuration file if it exists, None otherwise.
+        """
         configPath = Path(configPath)
         if configPath.exists():
             return configPath
@@ -47,6 +56,12 @@ class Config:
             return None
 
     def format(self):
+        """
+        Formats the configuration values to ensure they are in the correct format.
+
+        Returns:
+            None
+        """
         if self.language not in ["zh_CN", "en_US", "zh_TW"]:
             self.language = "zh_CN"
             print(_("语言格式错误, 已重置为默认值zh_CN", "red", self.language))

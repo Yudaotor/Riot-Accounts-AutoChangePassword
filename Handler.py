@@ -19,6 +19,18 @@ class Handler:
         self.config = config
 
     def IMAPHook(self, username, password, server):
+        """
+        Establishes an IMAP connection and returns a mail object.
+
+        Args:
+            username (str): The username for the IMAP connection.
+            password (str): The password for the IMAP connection.
+            server (str): The server for the IMAP connection.
+
+        Returns:
+            IMAP: The mail object for the IMAP connection.
+
+        """
         try:
             M = imaplib2.IMAP4_SSL(server)
             M.login(username, password)
@@ -31,6 +43,12 @@ class Handler:
             self.log.error(format_exc())
 
     def acceptCookies(self):
+        """
+        Accepts the cookies on the web page.
+
+        Returns:
+            None
+        """
         try:
             time.sleep(1)
             self.driver.implicitly_wait(2)
@@ -44,6 +62,17 @@ class Handler:
             self.log.error(format_exc())
 
     def automaticLogIn(self, username, password) -> bool:
+        """
+        Performs automatic login with the provided username and password.
+
+        Args:
+            username (str): The username for login.
+            password (str): The password for login.
+
+        Returns:
+            bool: True if the login is successful, False otherwise.
+
+        """
         try:
             self.driver.implicitly_wait(10)
             time.sleep(2)
@@ -69,6 +98,18 @@ class Handler:
             return False
 
     def changePassword(self, username, password, newPassword, delimiter) -> bool:
+        """
+        Changes the password for the given username.
+
+        Args:
+            username (str): The username for which the password is being changed.
+            password (str): The current password.
+            newPassword (str): The new password.
+            delimiter (str): The delimiter for the exported file.
+
+        Returns:
+            bool: True if the password change is successful, False otherwise.
+        """
         try:
             self.driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[2]/div[1]/div/div/input').send_keys(password)
             time.sleep(1)
@@ -93,6 +134,12 @@ class Handler:
             return False
 
     def accountLogOut(self):
+        """
+        Logs out from the account.
+
+        Returns:
+            None
+        """
         try:
             self.driver.find_element(by=By.XPATH, value='//*[@id="riotbar-account-bar"]/div/div').click()
             time.sleep(1)
@@ -104,6 +151,18 @@ class Handler:
             self.log.error(format_exc())
 
     def imapLogIn(self, imapUsername, imapPassword, imapServer, imapDelay) -> bool:
+        """
+        Logs in to the IMAP server and retrieves the verification code from the email.
+
+        Args:
+            imapUsername (str): The username for the IMAP connection.
+            imapPassword (str): The password for the IMAP connection.
+            imapServer (str): The server for the IMAP connection.
+            imapDelay (int): The delay in seconds before fetching the email.
+
+        Returns:
+            bool: True if the IMAP login and verification code retrieval are successful, False otherwise.
+        """
         try:
             time.sleep(imapDelay)
             req = self.IMAPHook(imapUsername, imapPassword, imapServer)

@@ -1,18 +1,32 @@
 import email
-import traceback
-from threading import *
-from datetime import datetime
+from traceback import print_exc
 import re
 import imaplib
 
 
 def setId(conn, username):
+    """
+    Sets the ID for the IMAP connection.
+
+    Args:
+        conn (imaplib.IMAP4): The IMAP connection object.
+        username (str): The username for the ID.
+
+    Returns:
+        None
+    """
     imaplib.Commands['ID'] = 'AUTH'
     args = ("name", username.split("@")[0], "contact", username, "version", "1.0.0", "vendor", username.split("@")[0]+"Client")
     conn._simple_command('ID', '("' + '" "'.join(args) + '")')
 
 
 def fetchCode(self):
+    """
+    Fetches the verification code from the latest email.
+
+    Returns:
+        None
+    """
     try:
         status, info = self.M.uid('search', None, 'ALL')
         if status == "OK":
@@ -22,7 +36,7 @@ def fetchCode(self):
                 if mail['From'].find('noreply@mail.accounts.riotgames.com') > -1:
                     self.code = re.findall(r'\d{6}', mail["Subject"])[0]
     except Exception:
-        traceback.print_exc()
+        print_exc()
 
 
 class IMAP(object):

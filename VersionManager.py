@@ -5,6 +5,12 @@ class VersionManager:
 
     @staticmethod
     def getLatestTag():
+        """
+        Get the latest tag number from the GitHub repository.
+
+        Returns:
+            float: The latest tag number. If the fetch fails, 0.0 is returned.
+        """
         try:
             latestTagResponse = req.get("https://api.github.com/repos/Yudaotor/Riot-Accounts-AutoChangePassword/releases/latest")
             if 'application/json' in latestTagResponse.headers.get('Content-Type', ''):

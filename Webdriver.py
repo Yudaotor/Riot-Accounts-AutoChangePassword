@@ -10,6 +10,15 @@ from I18n import _, _log
 
 
 def addWebdriverOptions(options):
+    """
+    Add additional options to the webdriver options.
+
+    Args:
+        options: The webdriver options object.
+
+    Returns:
+        The updated webdriver options object.
+    """
     prefs = {
         "profile.password_manager_enabled": False,
         "credentials_enable_service": False,
@@ -34,6 +43,12 @@ class Webdriver:
         self.log = log
 
     def createWebdriver(self):
+        """
+        Create a webdriver based on the specified browser.
+
+        Returns:
+            The webdriver instance.
+        """
         try:
             match self.browser:
                 case "chrome":
