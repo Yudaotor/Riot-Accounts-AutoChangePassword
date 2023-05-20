@@ -25,6 +25,7 @@ enUSI18n = {
     "----本次运行结果可于log文件夹中查看-----": "----The results of this run can be viewed in the log folder-----",
     "选择了不支持的浏览器": "Selected an unsupported browser",
     "创建webdriver失败,请检查是否对应浏览器是否已经是最新版本.": "Failed to create webdriver, please check whether the corresponding browser is the latest version.",
+    "检测到您使用的是网易邮箱, 请注意网易邮箱的IMAP功能需要手动开启,以及需要的是授权码而非密码": "It is detected that you are using NetEase mailbox. Please note that the IMAP function of NetEase mailbox needs to be turned on manually, and the authorization code is required instead of the password",
 }
 zhTWI18n = {
     "语言格式错误, 已重置为默认值zh_CN": "語言格式錯誤，已重置為默認值zh_CN",
@@ -53,7 +54,7 @@ zhTWI18n = {
     "----本次运行结果可于log文件夹中查看-----": "----本次運行結果可於log文件夾中查看-----",
     "选择了不支持的浏览器": "選擇了不支持的瀏覽器",
     "创建webdriver失败,请检查是否对应浏览器是否已经是最新版本.": "創建webdriver失敗，請檢查是否對應瀏覽器是否已經是最新版本。",
-
+    "检测到您使用的是网易邮箱, 请注意网易邮箱的IMAP功能需要手动开启,以及需要的是授权码而非密码": "檢測到您使用的是網易郵箱，請注意網易郵箱的IMAP功能需要手動開啟，以及需要的是授權碼而非密碼",
 }
 
 

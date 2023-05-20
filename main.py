@@ -78,10 +78,10 @@ def main(config: Config):
                     if handler.automaticLogIn(sp[0], sp[1]):
                         if config.imapServer != "":
                             if handler.imapLogIn(config.imapUsername, config.imapPassword, config.imapServer, config.imapDelay):
-                                if handler.automaticChangePassword(sp[0], sp[1], config.newPassword, config.accountDelimiter):
-                                    handler.automaticLogOut()
-                        elif handler.automaticChangePassword(sp[0], sp[1], config.newPassword, config.accountDelimiter):
-                            handler.automaticLogOut()
+                                if handler.changePassword(sp[0], sp[1], config.newPassword, config.accountDelimiter):
+                                    handler.accountLogOut()
+                        elif handler.changePassword(sp[0], sp[1], config.newPassword, config.accountDelimiter):
+                            handler.accountLogOut()
                 line = f.readline()
     except Exception:
         log.error(format_exc())

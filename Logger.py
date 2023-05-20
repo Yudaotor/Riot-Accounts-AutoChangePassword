@@ -1,16 +1,29 @@
 import logging
+import time
 from logging.handlers import RotatingFileHandler
+from pathlib import Path
 
-FILE_SIZE = 1024 * 1024 * 100  # 100 MB
-BACKUP_COUNT = 5  # keep up to 5 files
+FILE_SIZE = 1024 * 1024 * 100
+BACKUP_COUNT = 5
+PROGRAM_NAME = "AutoChangePassword"
+GITHUB_ADDRESS = "https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword"
+version = "2.32"
 
 
 class Logger:
     @staticmethod
-    def createLogger():
+    def createLogger(log_path=Path("./logs")):
+        """
+        Create and return a logger instance
+        Args:
+            log_path (Path, optional): The path where the log file is saved. Defaults to Path("./logs/programs").
+        Returns:
+            logging.Logger: Logger instance.
+        """
+        log_path.mkdir(parents=True, exist_ok=True)
         level = logging.INFO
         fileHandler = RotatingFileHandler(
-            "./logs/passwordChange.log",
+            log_path / f"{PROGRAM_NAME}-{time.strftime('%b-%d-%H-%M')}.log",
             mode="a+",
             maxBytes=FILE_SIZE,
             backupCount=BACKUP_COUNT,
@@ -22,11 +35,16 @@ class Logger:
             level=level,
             handlers=[fileHandler],
         )
-        log = logging.getLogger("PasswordChange")
-        log.info("-------------------------------------------------")
-        log.info("----------- Program started   ---------------")
-        log.info("----------- 本项目开源于github   ---------------")
-        log.info(r"--------- 地址:https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword ------------")
-        log.info(r"----------- 可以点一个小星星吗(*^_^*) ---------------")
-        log.info("-------------------------------------------------")
-        return log
+        logg = logging.getLogger(PROGRAM_NAME)
+        logg.info("-" * 50)
+        logg.info(f"{'-' * 22} Program started {version}   {'-' * 23}")
+        logg.info(f"{'-' * 22} Open Source on github  {'-' * 22}")
+        logg.info(f"{'-' * 7} Address: {GITHUB_ADDRESS} {'-' * 6}")
+        logg.info(f"{'-' * 16} Please give me a star,Thanks(*^_^*)  {'-' * 15}")
+        logg.info("-" * 50)
+        return logg
+
+
+log = Logger().createLogger()
+
+

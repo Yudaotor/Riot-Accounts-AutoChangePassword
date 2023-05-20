@@ -2,7 +2,6 @@ import time
 from traceback import format_exc
 
 from imaplib2 import imaplib2
-import imaplib
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
@@ -69,7 +68,7 @@ class Handler:
             self.log.error(format_exc())
             return False
 
-    def automaticChangePassword(self, username, password, newPassword, delimiter) -> bool:
+    def changePassword(self, username, password, newPassword, delimiter) -> bool:
         try:
             self.driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[2]/div[1]/div/div/input').send_keys(password)
             time.sleep(1)
@@ -81,7 +80,7 @@ class Handler:
             time.sleep(1)
             self.driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[3]/button[2]').click()
             time.sleep(2)
-            Export(delimiter).write_txt(username, newPassword)
+            Export(delimiter).writeSuccAcc(username, newPassword)
             self.log.info(username + _log(" 成功", self.config.language))
             print(username + _log(" 成功", self.config.language))
             return True
@@ -93,7 +92,7 @@ class Handler:
             self.log.error(format_exc())
             return False
 
-    def automaticLogOut(self):
+    def accountLogOut(self):
         try:
             self.driver.find_element(by=By.XPATH, value='//*[@id="riotbar-account-bar"]/div/div').click()
             time.sleep(1)
