@@ -123,7 +123,7 @@ class Handler:
             time.sleep(2)
             Export(delimiter).writeSuccAcc(username, newPassword)
             self.log.info(username + _log(" 成功", self.config.language))
-            print(username + _log(" 成功", self.config.language))
+            print(username + _(" 成功", "green", self.config.language))
             return True
         except Exception:
             self.log.error(username + _log(" 失败", self.config.language))
