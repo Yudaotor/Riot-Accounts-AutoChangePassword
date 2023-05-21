@@ -70,8 +70,10 @@ class Config:
                 self.imapDelay = int(self.imapDelay)
             except ValueError:
                 self.imapDelay = 10
-        else:
+                print(_("延迟格式错误, 已重置为默认值10", "red", self.language))
+        elif not isinstance(self.imapDelay, int):
             self.imapDelay = 10
+            print(_("延迟格式错误, 已重置为默认值10", "red", self.language))
 
         if isinstance(self.accountDelimiter, str):
             if self.accountDelimiter == "":
