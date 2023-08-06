@@ -7,7 +7,7 @@ FILE_SIZE = 1024 * 1024 * 100
 BACKUP_COUNT = 5
 PROGRAM_NAME = "AutoChangePassword"
 GITHUB_ADDRESS = "https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword"
-version = "2.32"
+version = "2.5"
 
 
 class Logger:
@@ -42,6 +42,7 @@ class Logger:
         logg.info(f"{'-' * 7} Address: {GITHUB_ADDRESS} {'-' * 6}")
         logg.info(f"{'-' * 16} Please give me a star,Thanks(*^_^*)  {'-' * 15}")
         logg.info("-" * 50)
+        logg.info(f"请我喝杯咖啡吧~https://github.com/Yudaotor")
         return logg
 
 

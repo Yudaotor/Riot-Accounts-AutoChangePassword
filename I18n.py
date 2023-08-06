@@ -19,6 +19,9 @@ enUSI18n = {
     "按回车键退出...": "Press Enter to exit...",
     '!!! 新版本可用 !!! 从此处下载:': '!!! New version available !!! Download from here:',
     '程序启动': 'Program startup',
+    "密码强度不足": "Password strength is insufficient",
+    '请我喝杯咖啡吧~https://github.com/Yudaotor': 'Buy me a cup of coffee~https://github.com/Yudaotor',
+    "检测到您使用的是谷歌邮箱, 请注意谷歌邮箱不可用 但是可以通过在谷歌邮箱设置中配置转发到其他可以支持的邮箱来获取验证码": "It is detected that you are using Google mailbox. Please note that Google mailbox is not available, but you can configure it to forward to other supported mailboxes in the Google mailbox settings to get the verification code",
     '程序结束': 'Program end',
     "----程序退出, 将在3秒后结束-----": "----Program exit, will end in 3 seconds-----",
     "----修改成功的新账号密码请于newAccounts文件夹中查看-----": "----The new account password that was successfully modified can be viewed in the newAccounts folder-----",
@@ -31,6 +34,7 @@ enUSI18n = {
 zhTWI18n = {
     "语言格式错误, 已重置为默认值zh_CN": "語言格式錯誤，已重置為默認值zh_CN",
     "分隔符格式错误, 已重置为默认值----": "分隔符格式錯誤，已重置為默認值----",
+    "检测到您使用的是谷歌邮箱, 请注意谷歌邮箱不可用 但是可以通过在谷歌邮箱设置中配置转发到其他可以支持的邮箱来获取验证码": "檢測到您使用的是谷歌郵箱，請注意谷歌郵箱不可用 但是可以通過在谷歌郵箱設置中配置轉發到其他可以支持的郵箱來獲取驗證碼",
     "浏览器格式错误, 已重置为默认值edge": "瀏覽器格式錯誤，已重置為默認值edge",
     "imap服务器格式错误, 已重置为空": "imap服務器格式錯誤，已重置為空",
     "imap用户名格式错误, 已重置为空": "imap用戶名格式錯誤，已重置為空",
@@ -40,6 +44,7 @@ zhTWI18n = {
     "接受Cookies发生错误": "接受Cookies發生錯誤",
     " 失败": " 失敗",
     "登录时发生错误": "登錄時發生錯誤",
+    '请我喝杯咖啡吧~https://github.com/Yudaotor': '請我喝杯咖啡吧~https://github.com/Yudaotor',
     " 成功": " 成功",
     "改密时发生错误": "改密時發生錯誤",
     "登出时发生错误": "登出時發生錯誤",
@@ -57,6 +62,7 @@ zhTWI18n = {
     "创建webdriver失败,请检查是否对应浏览器是否已经是最新版本.": "創建webdriver失敗，請檢查是否對應瀏覽器是否已經是最新版本。",
     "检测到您使用的是网易邮箱, 请注意网易邮箱的IMAP功能需要手动开启,以及需要的是授权码而非密码": "檢測到您使用的是網易郵箱，請注意網易郵箱的IMAP功能需要手動開啟，以及需要的是授權碼而非密碼",
     "延迟格式错误, 已重置为默认值10": "延遲格式錯誤，已重置為默認值10",
+    "密码强度不足": "密碼強度不足",
 }
 
 
@@ -74,9 +80,9 @@ def _(text, color, lang="zh_CN"):
     """
     rawText = text
     language_map = {
-        "zh_CN": f"[{color}]{text}[/{color}]",
-        "en_US": f"[{color}]{enUSI18n.get(text, f'{rawText} No translation there. Please contact the developer.')}[/{color}]",
-        "zh_TW": f"[{color}]{zhTWI18n.get(text, rawText)}[/{color}]"
+        "zh_CN": f"[{color}]{text}[/]",
+        "en_US": f"[{color}]{enUSI18n.get(text, f'{rawText} No translation there. Please contact the developer.')}[/]",
+        "zh_TW": f"[{color}]{zhTWI18n.get(text, rawText)}[/]"
     }
     return language_map.get(lang, text)
 

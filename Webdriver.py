@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.edge.service import Service as EdgeService
 from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.core.driver_cache import DriverCacheManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from rich import print
 from I18n import _, _log
@@ -52,12 +53,16 @@ class Webdriver:
         try:
             match self.browser:
                 case "chrome":
-                    driverPath = ChromeDriverManager(path=".\\driver").install()
+                    customPath = ".\\driver"
+                    chromeDriverManager = ChromeDriverManager(cache_manager=DriverCacheManager(customPath))
+                    driverPath = chromeDriverManager.install()
                     options = addWebdriverOptions(webdriver.ChromeOptions())
                     service = ChromeService(driverPath)
                     return webdriver.Chrome(service=service, options=options)
                 case "edge":
-                    driverPath = EdgeChromiumDriverManager(path=".\\driver").install()
+                    customPath = ".\\driver"
+                    edgeChromiumDriverManager = EdgeChromiumDriverManager(cache_manager=DriverCacheManager(customPath))
+                    driverPath = edgeChromiumDriverManager.install()
                     options = addWebdriverOptions(webdriver.EdgeOptions())
                     service = EdgeService(driverPath)
                     return webdriver.Edge(service=service, options=options)

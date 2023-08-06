@@ -53,20 +53,21 @@ def init() -> tuple[logging.Logger, Config, webdriver.Edge, Handler]:
     return log, config, driver, handler
 
 
-CURRENT_VERSION = 2.4
+CURRENT_VERSION = 2.5
 log, config, driver, handler = init()
 
 if not VersionManager.isLatestVersion(CURRENT_VERSION):
-    print("[yellow]--------------------------------------------------------------------")
+    print("[yellow]--------------------------------------------------------------------[/]")
     print(f"{_('!!! 新版本可用 !!! 从此处下载:', color='yellow', lang=config.language)} https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/releases/latest")
-    print("[yellow]--------------------------------------------------------------------")
+    print("[yellow]--------------------------------------------------------------------[/]")
 
 
 def main(config: Config):
-    print(f"[bold yellow]{'-' * 15}[/bold yellow]"
+    print(f"[bold yellow]{'-' * 15}[/]"
           f"v{CURRENT_VERSION} "
           f"{_('程序启动', 'bold yellow', config.language)} "
-          f"[bold yellow]{'-' * 15}[/bold yellow]")
+          f"[bold yellow]{'-' * 15}[/]")
+    print(f"{_('请我喝杯咖啡吧~https://github.com/Yudaotor', 'cyan', config.language)}")
     try:
         with open(config.accountFilePath) as f:
             line = f.readline()
@@ -91,11 +92,12 @@ if __name__ == '__main__':
     try:
         main(config)
     except (KeyboardInterrupt, SystemExit):
-        print(f"[bold yellow]{'-' * 15}[/bold yellow]"
+        print(f"[bold yellow]{'-' * 15}[/]"
               f"{_('程序结束', 'bold yellow', config.language)} "
-              f"[bold yellow]{'-' * 15}[/bold yellow]")
+              f"[bold yellow]{'-' * 15}[/]")
         sys.exit()
     print(_("----程序退出, 将在3秒后结束-----", "bold green", config.language))
+    print(f"{_('请我喝杯咖啡吧~https://github.com/Yudaotor', 'cyan', config.language)}")
     print(_("----修改成功的新账号密码请于newAccounts文件夹中查看-----", "bold green", config.language))
     print(_("----本次运行结果可于log文件夹中查看-----", "bold green", config.language))
     time.sleep(3)

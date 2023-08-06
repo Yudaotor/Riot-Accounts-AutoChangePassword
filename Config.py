@@ -1,5 +1,7 @@
 import logging
 import os
+from traceback import format_exc
+
 import yaml
 from yaml.parser import ParserError
 from rich import print
@@ -11,6 +13,7 @@ class Config:
     def __init__(self, log: logging.Logger, configPath: str) -> None:
         try:
             configPath = self.__findConfig(configPath)
+            self.log = log
             if configPath is None:
                 print("[red]Config file not found")
                 log.error("Config file not found")
@@ -30,11 +33,13 @@ class Config:
                 self.format()
         except (ParserError, KeyError):
             log.error("Config file format error")
+            log.error(format_exc())
             print("[red]Config file format error")
             input("Press Enter to exit...")
             os.kill(os.getpid(), 9)
         except Exception:
             log.error("Config file read error")
+            log.error(format_exc())
             print("[red]Config file read error")
             input("Press Enter to exit...")
             os.kill(os.getpid(), 9)
@@ -65,6 +70,12 @@ class Config:
         if self.language not in ["zh_CN", "en_US", "zh_TW"]:
             self.language = "zh_CN"
             print(_("语言格式错误, 已重置为默认值zh_CN", "red", self.language))
+        valid, message = self.check_password_strength(self.newPassword)
+        if not valid:
+            print(message)
+            self.log.error(_log("密码强度不足", self.language))
+            input("Press Enter to exit...")
+            os.kill(os.getpid(), 9)
         if isinstance(self.imapDelay, str):
             try:
                 self.imapDelay = int(self.imapDelay)
@@ -119,3 +130,14 @@ class Config:
         elif self.imapServer == "imap.163.com" or self.imapServer == "imap.126.com":
             print(_("检测到您使用的是网易邮箱, 请注意网易邮箱的IMAP功能需要手动开启,以及需要的是授权码而非密码", "yellow", self.language))
             logging.warning(_log("检测到您使用的是网易邮箱, 请注意网易邮箱的IMAP功能需要手动开启,以及需要的是授权码而非密码", self.language))
+        if self.imapServer == "imap.gmail.com":
+            print(_("检测到您使用的是谷歌邮箱, 请注意谷歌邮箱不可用 但是可以通过在谷歌邮箱设置中配置转发到其他可以支持的邮箱来获取验证码", "yellow", self.language))
+            logging.warning(_log("检测到您使用的是谷歌邮箱, 请注意谷歌邮箱不可用 但是可以通过在谷歌邮箱设置中配置转发到其他可以支持的邮箱来获取验证码", self.language))
+
+    def check_password_strength(self, password):
+        if len(password) < 8:
+            return False, _("密码长度必须大于等于8", color="red", lang=self.language)
+
+        if not any(char.isalpha() for char in password) or not any(char.isnumeric() or not char.isalnum() for char in password):
+            return False, _("密码必须包含至少一个字母和一个非字母字符", color="red", lang=self.language)
+        return True, ""
