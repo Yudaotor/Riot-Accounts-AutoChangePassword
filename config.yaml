@@ -1,5 +1,7 @@
+language: "zh_CN或者en_US或者zh_TW"
 newPassword: "新密码"
-accountFilePath: "账号密码信息所在txt的文件路径(注意,需要使用'双杠'而不是'单杠')"
-accountDelimiter: "账密文件中的分隔符,默认为----,如有需要请自行修改"
-browser: "edge或者chrome(根据自己浏览器以及webdriver选择)"
-# 更多配置请参考github种readme文件
+accountFilePath: "账号密码文件路径"
+accountDelimiter: "----"
+browser: "chrome"
+# 更多配置请参考github中readme文件(For more configuration, please refer to the github readme file)
+# 请我喝杯咖啡吧~ https://github.com/Yudaotor
