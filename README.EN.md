@@ -19,7 +19,8 @@ a21341----3512s5312
 (Need to pay attention!!! The file path should use \\\ instead of \\)  
 (When configuring the path, remember to add .txt after the account information file, remember to add .exe after the driver)  
 (path do not appear Chinese and Chinese characters)  
-(If you have not verified the mailbox, you do not need to fill in the configuration information of imap)  
+(If you have not verified the mailbox, you do not need to fill in the configuration information of imap)
+You can set: imapDelay: Number.which seconds will wait for the email code.
 Example:  
 ![image](https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/assets/87225219/1de91063-0c79-4224-83d2-704c089651c1)
 
