@@ -21,7 +21,8 @@ a21341----3512s5312
 (path do not appear Chinese and Chinese characters)  
 (If you have not verified the mailbox, you do not need to fill in the configuration information of imap)  
 Example:  
-![image](https://user-images.githubusercontent.com/87225219/225528615-44b2a7bd-4b87-4a40-8e69-fb5222c3abdc.png)
+![image](https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/assets/87225219/1de91063-0c79-4224-83d2-704c089651c1)
+
 
 5. After the execution of the program, you can check the information of the password change in the log folder. 
 6. How to download, please click the right side of the release to download the latest version of the exe file to use.  
