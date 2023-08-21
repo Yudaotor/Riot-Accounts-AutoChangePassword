@@ -1,3 +1,4 @@
+import random
 import time
 from traceback import format_exc
 
@@ -79,13 +80,29 @@ class Handler:
             wait = WebDriverWait(self.driver, 10)
             usernameInput = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "input[name=username]")))
             usernameInput.send_keys(Keys.CONTROL, 'a')
-            usernameInput.send_keys(username)
+            for character in username:
+                usernameInput.send_keys(character)
+                time.sleep(random.uniform(0.02, 0.1))
             time.sleep(1)
             passwordInput = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "input[name=password]")))
             passwordInput.send_keys(Keys.CONTROL, 'a')
-            passwordInput.send_keys(password)
-            submitButton = wait.until(ec.presence_of_element_located((By.XPATH, "/html/body/div[2]/div/div/div[2]/div/div/button")))
+            for character in password:
+                passwordInput.send_keys(character)
+                time.sleep(random.uniform(0.02, 0.1))
+            time.sleep(1)
+            submitButton = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "button[data-testid=btn-signin-submit]")))
             self.driver.execute_script("arguments[0].click();", submitButton)
+            try:
+                captchaIframe = WebDriverWait(self.driver, 5).until(ec.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR, "iframe[src*='captcha']")))
+                captchaDiv = WebDriverWait(self.driver, 5).until(ec.presence_of_element_located((By.CSS_SELECTOR, "div.interface-wrapper")))
+                print(_("遇到图片验证码", "red", self.config.language))
+                if captchaIframe:
+                    self.driver.switch_to.default_content()
+                print(username + _(" 失败", "red", self.config.language))
+                self.log.error(username + _log(" 失败", self.config.language))
+                return False
+            except Exception:
+                pass
             return True
         except Exception:
             self.log.error(username + _log(" 失败", self.config.language))
@@ -111,16 +128,23 @@ class Handler:
             bool: True if the password change is successful, False otherwise.
         """
         try:
-            self.driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[2]/div[1]/div/div/input').send_keys(password)
+            currentPasswordInput = self.driver.find_element(by=By.CSS_SELECTOR, value='input[data-testid=password-card__currentPassword]')
+            for character in password:
+                currentPasswordInput.send_keys(character)
+                time.sleep(random.uniform(0.02, 0.1))
+            time.sleep(0.5)
+            newPasswordInput = self.driver.find_element(by=By.CSS_SELECTOR, value='input[data-testid=password-card__newPassword]')
+            for character in newPassword:
+                newPasswordInput.send_keys(character)
+                time.sleep(random.uniform(0.02, 0.1))
+            time.sleep(0.5)
+            confirmNewPasswordInput = self.driver.find_element(by=By.CSS_SELECTOR, value='input[data-testid=password-card__confirmNewPassword]')
+            for character in newPassword:
+                confirmNewPasswordInput.send_keys(character)
+                time.sleep(random.uniform(0.02, 0.1))
+            time.sleep(0.5)
+            self.driver.find_element(by=By.CSS_SELECTOR, value='button[data-testid=password-card__submit-btn]').click()
             time.sleep(1)
-            self.driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[2]/div[3]/div/input').send_keys(newPassword)
-            time.sleep(1)
-            self.driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[2]/div[2]/div/input').send_keys(newPassword)
-            time.sleep(1)
-            self.driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[2]/div[1]/div/div/input').click()
-            time.sleep(1)
-            self.driver.find_element(by=By.XPATH, value='//*[@id="riot-account"]/div/div[2]/div/div[3]/button[2]').click()
-            time.sleep(2)
             Export(delimiter).writeSuccAcc(username, newPassword)
             self.log.info(username + _log(" 成功", self.config.language))
             print(username + _(" 成功", "green", self.config.language))
@@ -141,10 +165,13 @@ class Handler:
             None
         """
         try:
-            self.driver.find_element(by=By.XPATH, value='//*[@id="riotbar-account-bar"]/div/div').click()
-            time.sleep(1)
-            self.driver.find_element(by=By.XPATH, value='//*[@id="riotbar-account-dropdown-links"]/a[3]').click()
-            time.sleep(2)
+            # self.driver.find_element(by=By.XPATH, value='//*[@id="riotbar-account-bar"]/div/div').click()
+            # time.sleep(1)
+            # self.driver.find_element(by=By.XPATH, value='//*[@id="riotbar-account-dropdown-links"]/a[3]').click()
+            # time.sleep(2)
+            # self.driver.delete_all_cookies()
+            # self.driver.refresh()
+            pass
         except Exception:
             print(_("登出时发生错误", "red", self.config.language))
             self.log.error(_log("登出时发生错误", self.config.language))
@@ -167,19 +194,18 @@ class Handler:
             time.sleep(imapDelay)
             req = self.IMAPHook(imapUsername, imapPassword, imapServer)
             if req is None or req.code == "":
-                self.log.error(_log("IMAP获取验证码失败", self.config.language))
-                print(_("IMAP获取验证码失败", "red", self.config.language))
+                self.log.error(_log("IMAP获取验证码失败 请检查是否打开了IMAP", self.config.language))
+                print(_("IMAP获取验证码失败 请检查是否打开了IMAP", "red", self.config.language))
                 return False
-            self.driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div/div/div[2]/div/div/div[1]/div/input').send_keys(req.code)
-            self.driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div/div/button').click()
+            twoFaCodeInput = self.driver.find_element(by=By.CSS_SELECTOR, value='input[data-testid=input-mfa]')
+            twoFaCodeInput.send_keys(req.code)
+            time.sleep(1)
+            self.driver.find_element(by=By.CSS_SELECTOR, value='button[type=submit]').click()
             time.sleep(3)
             self.driver.implicitly_wait(10)
-            buttonNumber = self.driver.find_elements(By.XPATH, '/html/body/div[2]/div[1]/div[2]/div[2]/div[2]/div/div[1]')
-            if len(req.code) == 6 and len(buttonNumber) > 0:
+            if len(req.code) == 6:
                 return True
             else:
-                self.driver.delete_all_cookies()
-                self.driver.refresh()
                 self.log.error(imapUsername + _log(" 邮箱验证码获取失败", self.config.language))
                 print(imapUsername + _(" 邮箱验证码获取失败", "red", self.config.language))
                 return False

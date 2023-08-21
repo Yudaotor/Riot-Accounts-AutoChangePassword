@@ -32,6 +32,9 @@ def addWebdriverOptions(options):
     options.add_argument("--disable-gpu")
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
     options.add_argument('disable-infobars')
+    options.add_argument("--disable-gpu-shader-disk-cache")
+    options.add_argument("--disable-application-cache")
+    options.add_argument("--disable-cache")
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.41"
     options.add_argument(f'user-agent={user_agent}')
     return options

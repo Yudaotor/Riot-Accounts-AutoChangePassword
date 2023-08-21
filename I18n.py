@@ -14,6 +14,7 @@ enUSI18n = {
     "改密时发生错误": "An error occurred while changing password",
     "登出时发生错误": "An error occurred while logging out",
     "IMAP获取验证码失败": "IMAP failed to get verification code",
+    "IMAP获取验证码失败  请检查是否打开了IMAP": "IMAP failed to get verification code.Please check imap is on?",
     " 邮箱验证码获取失败": " Email verification code acquisition failed",
     "webDriver创建失败!": "webDriver creation failed!",
     "按回车键退出...": "Press Enter to exit...",
@@ -30,6 +31,7 @@ enUSI18n = {
     "创建webdriver失败,请检查是否对应浏览器是否已经是最新版本.": "Failed to create webdriver, please check whether the corresponding browser is the latest version.",
     "检测到您使用的是网易邮箱, 请注意网易邮箱的IMAP功能需要手动开启,以及需要的是授权码而非密码": "It is detected that you are using NetEase mailbox. Please note that the IMAP function of NetEase mailbox needs to be turned on manually, and the authorization code is required instead of the password",
     "延迟格式错误, 已重置为默认值10": "Delay format error, reset to default value 10",
+    "遇到图片验证码": "Encounter image captcha",
 }
 zhTWI18n = {
     "语言格式错误, 已重置为默认值zh_CN": "語言格式錯誤，已重置為默認值zh_CN",
@@ -47,6 +49,7 @@ zhTWI18n = {
     '请我喝杯咖啡吧~https://github.com/Yudaotor': '請我喝杯咖啡吧~https://github.com/Yudaotor',
     " 成功": " 成功",
     "改密时发生错误": "改密時發生錯誤",
+    "IMAP获取验证码失败  请检查是否打开了IMAP": "IMAP獲取驗證碼失敗 請檢查是否打開了IMAP",
     "登出时发生错误": "登出時發生錯誤",
     "IMAP获取验证码失败": "IMAP獲取驗證碼失敗",
     " 邮箱验证码获取失败": " 郵箱驗證碼獲取失敗",
@@ -63,6 +66,7 @@ zhTWI18n = {
     "检测到您使用的是网易邮箱, 请注意网易邮箱的IMAP功能需要手动开启,以及需要的是授权码而非密码": "檢測到您使用的是網易郵箱，請注意網易郵箱的IMAP功能需要手動開啟，以及需要的是授權碼而非密碼",
     "延迟格式错误, 已重置为默认值10": "延遲格式錯誤，已重置為默認值10",
     "密码强度不足": "密碼強度不足",
+    "遇到图片验证码": "遇到圖片驗證碼",
 }
 
 

@@ -7,7 +7,7 @@ FILE_SIZE = 1024 * 1024 * 100
 BACKUP_COUNT = 5
 PROGRAM_NAME = "AutoChangePassword"
 GITHUB_ADDRESS = "https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword"
-version = "2.5"
+version = "2.6"
 
 
 class Logger:

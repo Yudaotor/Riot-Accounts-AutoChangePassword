@@ -53,7 +53,7 @@ def init() -> tuple[logging.Logger, Config, webdriver.Edge, Handler]:
     return log, config, driver, handler
 
 
-CURRENT_VERSION = 2.5
+CURRENT_VERSION = 2.6
 log, config, driver, handler = init()
 
 if not VersionManager.isLatestVersion(CURRENT_VERSION):
@@ -62,7 +62,7 @@ if not VersionManager.isLatestVersion(CURRENT_VERSION):
     print("[yellow]--------------------------------------------------------------------[/]")
 
 
-def main(config: Config):
+def main(config, handler):
     print(f"[bold yellow]{'-' * 15}[/]"
           f"v{CURRENT_VERSION} "
           f"{_('程序启动', 'bold yellow', config.language)} "
@@ -83,14 +83,39 @@ def main(config: Config):
                                     handler.accountLogOut()
                         elif handler.changePassword(sp[0], sp[1], config.newPassword, config.accountDelimiter):
                             handler.accountLogOut()
-                line = f.readline()
+                    line = f.readline()
+                    if line:
+                        try:
+                            handler.driver.quit()
+                            driver = Webdriver(browser=config.browser, config=config, log=log).createWebdriver()
+                            driver.get('https://auth.riotgames.com/login#acr_values=urn%3Ariot%3Agold&client_id=accountodactyl-prod&redirect_uri'
+                                       '=https%3A%2F%2Faccount.riotgames.com%2Foauth2%2Flog-in&response_type=code&scope=openid%20email%20profile'
+                                       '%20riot%3A%2F%2Friot.atlas%2Faccounts.edit%20riot%3A%2F%2Friot.atlas%2Faccounts%2Fpassword.edit%20riot'
+                                       '%3A%2F%2Friot.atlas%2Faccounts%2Femail.edit%20riot%3A%2F%2Friot.atlas%2Faccounts.auth%20riot%3A%2F'
+                                       '%2Fthird_party.revoke%20riot%3A%2F%2Fthird_party.query%20riot%3A%2F%2Fforgetme%2Fnotify.write%20riot%3A'
+                                       '%2F%2Friot.authenticator%2Fauth.code%20riot%3A%2F%2Friot.authenticator%2Fauthz.edit%20riot%3A%2F%2Frso'
+                                       '%2Fmfa%2Fdevice.write%20riot%3A%2F%2Friot.authenticator%2Fidentity.add&state=547c8cd2-9eb0-4302-b9b2'
+                                       '-f29ee843a4bd&ui_locales=zh-Hans')
+                        except Exception:
+                            print(_("webDriver创建失败!", "red", config.language))
+                            print(sp[0] + " " + _("失败", "red", config.language))
+                            log.error(_log("webDriver创建失败!"))
+                            log.error(sp[0] + " " + _log("失败", config.language))
+                            log.error(format_exc())
+                            if driver:
+                                driver.quit()
+                        # 载入网页
+                        driver.implicitly_wait(10)  # 隐式等待时间
+                        driver.maximize_window()  # 最大化窗口
+                        handler = Handler(log=log, driver=driver, config=config)
+                        handler.acceptCookies()
     except Exception:
         log.error(format_exc())
 
 
 if __name__ == '__main__':
     try:
-        main(config)
+        main(config, handler)
     except (KeyboardInterrupt, SystemExit):
         print(f"[bold yellow]{'-' * 15}[/]"
               f"{_('程序结束', 'bold yellow', config.language)} "
