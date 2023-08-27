@@ -39,6 +39,7 @@ en_us_i18n = {
     "秒": " seconds",
     "获取验证码失败": "Failed to get verification code",
     '请我喝杯咖啡吧~': 'Buy me a cup of coffee~',
+    "正在初始化...": "Initializing...",
     "获取对应邮件失败 请调整imapDelay到合适时间": "Failed to get the corresponding email, please adjust the imapDelay to the appropriate time",
     "IMAP获取验证码失败 请检查是否打开了IMAP": "IMAP failed to get verification code.Please check imap is on?",
     "修改成功的新账号密码请于newAccounts文件夹中查看": "The new account password that was successfully modified can be viewed in the newAccounts folder",
@@ -86,6 +87,7 @@ zh_tw_i18n = {
     "延迟格式错误, 已重置为默认值10": "延遲格式錯誤，已重置為默認值10",
     "密码强度不足": "密碼強度不足",
     "遇到图片验证码": "遇到圖片驗證碼",
+    "正在初始化...": "正在初始化...",
     "读取邮件延迟当前为: ": "讀取郵件延遲當前為: ",
 }
 

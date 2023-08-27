@@ -64,6 +64,8 @@ class Webdriver:
         return driver_instance
 
     def init_webdriver(self):
+        print(_("正在初始化...", "yellow", config.language))
+        log.info(_log("正在初始化...", config.language))
         try:
             match self.browser:
                 case "chrome":
