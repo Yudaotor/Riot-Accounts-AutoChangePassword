@@ -8,7 +8,7 @@ Can you give me a little star (*^_^*)⭐
 ## Notes on use:
 ** Version 2.4 supports Simplified Chinese, Traditional Chinese and English. Modify the language in the config file. **
 
-0. [Verified email account configuration tutorial](https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/wiki/%E5%A6%82%E4%BD%95%E4%B8%BA%E9%AA%8C%E8%AF%81%E8%BF%87%E9%82%AE%E7%AE%B1%E7%9A%84%E8%B4%A6%E5%8F%B7%E8%87%AA%E5%8A%A8%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81(How-to-change-password-automatically-for-accounts-with-verified-emails))
+0. [Verified email account configuration tutorial](https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword/wiki/%E5%A6%82%E4%BD%95%E4%B8%BA%E9%AA%8C%E8%AF%81%E8%BF%87%E9%82%AE%E7%AE%B1%E7%9A%84%E8%B4%A6%E5%8F%B7%E8%87%AA%E5%8A%A8%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81(How-to-change-password-automatically-for-accounts-with-verified-emails)))
 1. This program supports Microsoft edge browser and chrome Google browser, so you need to download the corresponding webdriver for your browser. How to download and configure, you can Google it yourself. (Note that you need to download the version that matches your browser)
 2. The account need to change password's information needs to be stored in a txt file, the specific format is:  
 213451231----351252312  
