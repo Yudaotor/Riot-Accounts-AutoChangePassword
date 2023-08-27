@@ -7,7 +7,7 @@ FILE_SIZE = 1024 * 1024 * 100
 BACKUP_COUNT = 5
 PROGRAM_NAME = "AutoChangePassword"
 GITHUB_ADDRESS = "https://github.com/Yudaotor/Riot-Accounts-AutoChangePassword"
-version = "2.6"
+version = "2.7"
 
 
 class Logger:
@@ -22,7 +22,7 @@ class Logger:
         """
         log_path.mkdir(parents=True, exist_ok=True)
         level = logging.INFO
-        fileHandler = RotatingFileHandler(
+        file_handler = RotatingFileHandler(
             log_path / f"{PROGRAM_NAME}-{time.strftime('%b-%d-%H-%M')}.log",
             mode="a+",
             maxBytes=FILE_SIZE,
@@ -33,7 +33,7 @@ class Logger:
         logging.basicConfig(
             format="%(asctime)s %(levelname)s: %(message)s",
             level=level,
-            handlers=[fileHandler],
+            handlers=[file_handler],
         )
         logg = logging.getLogger(PROGRAM_NAME)
         logg.info("-" * 50)

@@ -6,19 +6,9 @@ class Export:
     def __init__(self, delimiter):
         self.delimiter = delimiter
 
-    def writeSuccAcc(self, username, password):
-        """
-        Writes the successful account details to a file.
-
-        Args:
-            username (str): The username of the successful account.
-            password (str): The password of the successful account.
-
-        Returns:
-            None
-        """
+    def write_success_acc(self, username, password, email_verify=""):
         try:
-            with open('./newAccounts/' + time.strftime("%Y%m%d-") + 'accounts.txt', 'a') as f:
+            with open('./newAccounts/' + email_verify + time.strftime("%Y%m%d-") + 'accounts.txt', 'a', encoding="utf-8") as f:
                 f.write(f"{username}{self.delimiter}{password}\n")
         except Exception:
             print_exc()

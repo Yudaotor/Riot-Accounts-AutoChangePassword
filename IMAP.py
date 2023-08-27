@@ -2,9 +2,11 @@ import email
 from traceback import print_exc
 import re
 import imaplib
+from Logger import log
+from Config import config
 
 
-def setId(conn, username):
+def set_id(conn, username):
     """
     Sets the ID for the IMAP connection.
 
@@ -16,11 +18,11 @@ def setId(conn, username):
         None
     """
     imaplib.Commands['ID'] = 'AUTH'
-    args = ("name", username.split("@")[0], "contact", username, "version", "1.0.0", "vendor", username.split("@")[0]+"Client")
+    args = ("name", username.split("@")[0], "contact", username, "version", "1.0.0", "vendor", username.split("@")[0] + "Client")
     conn._simple_command('ID', '("' + '" "'.join(args) + '")')
 
 
-def fetchCode(self):
+def fetch_code(self):
     """
     Fetches the verification code from the latest email.
 
@@ -36,16 +38,13 @@ def fetchCode(self):
                 if mail['From'].find('noreply@mail.accounts.riotgames.com') > -1:
                     self.code = re.findall(r'\d{6}', mail["Subject"])[0]
     except Exception:
-        print_exc()
+        log.error("获取验证码失败", config.language)
 
 
 class IMAP(object):
     def __init__(self, conn, username):
-        setId(conn, username)
+        set_id(conn, username)
         conn.select("INBOX")
         self.M = conn
         self.code = ""
-        fetchCode(self)
-
-
-
+        fetch_code(self)
