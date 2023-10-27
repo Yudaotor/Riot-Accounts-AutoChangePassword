@@ -12,7 +12,8 @@ a = Analysis(
     'Export.py',
     'IMAP.py',
     'VersionManager.py',
-    'Webdriver.py'
+    'Webdriver.py',
+    'Password.py'
     ],
     pathex=['C:\\Users\\Khalil\\Desktop\\xiaohao'],
     binaries=[],
