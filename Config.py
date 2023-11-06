@@ -153,4 +153,4 @@ if len(sys.argv) > 1:
 
 print("使用配置文件：", config_file)
 
-config = Config("./config.yaml")
+config = Config(config_file)
