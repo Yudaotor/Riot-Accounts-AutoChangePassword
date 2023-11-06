@@ -1,5 +1,5 @@
 language: "zh_CN或者en_US或者zh_TW"
-newPassword: "新密码"
+newPassword: "新密码"  # 留空将自动产生随机密码
 accountFilePath: "账号密码文件路径"
 accountDelimiter: "----"
 browser: "chrome"

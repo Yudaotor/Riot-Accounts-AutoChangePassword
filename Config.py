@@ -7,7 +7,8 @@ from rich import print
 from pathlib import Path
 from I18n import _, _log
 from Logger import log
-
+import sys
+from Password import Password
 
 class Config:
     def __init__(self, config_path):
@@ -21,6 +22,9 @@ class Config:
             with open(config_path, "r", encoding='utf-8') as f:
                 configg = yaml.safe_load(f)
                 self.new_password = configg.get("newPassword")
+                if self.new_password == "":
+                    self.new_password = Password().value
+                    
                 self.account_file_path = configg.get("accountFilePath").strip('u202a')
                 self.account_delimiter = configg.get("accountDelimiter", "----")
                 self.browser = configg.get("browser", "edge")
@@ -143,5 +147,10 @@ class Config:
             return False, _("密码必须包含至少一个字母和一个非字母字符", color="red", lang=self.language)
         return True, ""
 
+config_file = "./config.yaml"
+if len(sys.argv) > 1:
+    config_file = sys.argv[1]
 
-config = Config("./config.yaml")
+print("使用配置文件：", config_file)
+
+config = Config(config_file)
